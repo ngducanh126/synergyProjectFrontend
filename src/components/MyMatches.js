@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function MyMatches({ token }) {
@@ -32,6 +33,9 @@ function MyMatches({ token }) {
               <p>{match.bio}</p>
               <p>Skills: {match.skills?.join(', ')}</p>
               <p>Location: {match.location}</p>
+              <Link to={`/chat/${match.id}`}>
+                <button>Chat Now</button>
+              </Link>
             </li>
           ))}
         </ul>

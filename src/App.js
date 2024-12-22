@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Profile from './components/Profile';
 import Match from './components/Match';
 import MyMatches from './components/MyMatches';
+import ChatPage from './components/ChatPage'; // Import ChatPage
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,33 +33,13 @@ function App() {
         <Link to="/login">Login</Link>
       </nav>
       <Routes>
-        <Route
-          path="/"
-          element={<Home isLoggedIn={isLoggedIn} handleLogout={handleLogout} />}
-        />
-        <Route
-          path="/login"
-          element={<Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} />}
-        />
+        <Route path="/" element={<Home isLoggedIn={isLoggedIn} handleLogout={handleLogout} />} />
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/profile"
-          element={
-            isLoggedIn ? <Profile token={token} /> : <div>Please log in first.</div>
-          }
-        />
-        <Route
-          path="/match"
-          element={
-            isLoggedIn ? <Match token={token} /> : <div>Please log in first.</div>
-          }
-        />
-        <Route
-          path="/my-matches"
-          element={
-            isLoggedIn ? <MyMatches token={token} /> : <div>Please log in first.</div>
-          }
-        />
+        <Route path="/profile" element={isLoggedIn ? <Profile token={token} /> : <div>Please log in first.</div>} />
+        <Route path="/match" element={isLoggedIn ? <Match token={token} /> : <div>Please log in first.</div>} />
+        <Route path="/my-matches" element={isLoggedIn ? <MyMatches token={token} /> : <div>Please log in first.</div>} />
+        <Route path="/chat/:receiverId" element={isLoggedIn ? <ChatPage token={token} /> : <div>Please log in first.</div>} />
       </Routes>
     </div>
   );
