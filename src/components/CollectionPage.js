@@ -9,36 +9,34 @@ function CollectionPage({ token }) {
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
 
-  // Fetch items for the collection
   useEffect(() => {
     const fetchItems = async () => {
-      console.log(`[DEBUG] Fetching items for Collection ID: ${collectionId}`);
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:5000/profile/collections/${collectionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log('[DEBUG] Items fetched from backend:', response.data);
+        console.log(`[DEBUG] Fetching items for Collection ID: ${collectionId}`);
+        try {
+            const response = await axios.get(
+                `http://127.0.0.1:5000/profile/collections/${collectionId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log('[DEBUG] Items fetched from backend:', response.data);
 
-        // Map the items to ensure file_path URLs are consistent
-        const updatedItems = response.data.map((item) => ({
-          ...item,
-          file_path: item.file_path || null, // Ensure the backend provides complete URLs
-        }));
+            const updatedItems = response.data.map((item) => ({
+                ...item,
+                file_path: item.file_path || null,
+            }));
 
-        setItems(updatedItems);
-        console.log('[DEBUG] Updated items for frontend:', updatedItems);
-      } catch (error) {
-        console.error('[ERROR] Failed to fetch items:', error.response?.data || error.message);
-        alert('Failed to fetch items.');
-      }
+            console.log('[DEBUG] Processed items with file paths:', updatedItems);
+            setItems(updatedItems);
+        } catch (error) {
+            console.error('[ERROR] Failed to fetch items:', error.response?.data || error.message);
+            alert('Failed to fetch items.');
+        }
     };
     fetchItems();
-  }, [collectionId, token]);
+}, [collectionId, token]);
 
   // Handle adding a new item
   const handleAddItem = async (e) => {
@@ -46,12 +44,14 @@ function CollectionPage({ token }) {
     console.log(
       `[DEBUG] Adding item to Collection ID: ${collectionId}, Type: ${itemType}, Content: ${content}, File: ${file?.name || 'None'}`
     );
-
+  
     try {
       let response;
-
+  
       if (itemType === 'text') {
         console.log('[DEBUG] Sending text content...');
+        console.log('[DEBUG] Payload:', { type: itemType, content });
+  
         response = await axios.post(
           `http://127.0.0.1:5000/profile/collections/${collectionId}/items`,
           { type: itemType, content },
@@ -65,20 +65,23 @@ function CollectionPage({ token }) {
       } else {
         console.log('[DEBUG] Sending image or video with description...');
         if (!file) {
+          console.warn('[WARNING] No file selected for upload.');
           alert('Please select a valid file.');
           return;
         }
         if (!content.trim()) {
+          console.warn('[WARNING] No description provided for the file.');
           alert('Please add a description.');
           return;
         }
-
+  
         const formData = new FormData();
         formData.append('type', itemType);
         formData.append('content', content);
         formData.append('file', file);
-        console.log(`[DEBUG] File attached: ${file.name}`);
-
+        console.log('[DEBUG] FormData created:');
+        console.log(`[DEBUG] type: ${itemType}, content: ${content}, file: ${file.name}`);
+  
         response = await axios.post(
           `http://127.0.0.1:5000/profile/collections/${collectionId}/items`,
           formData,
@@ -89,26 +92,31 @@ function CollectionPage({ token }) {
           }
         );
       }
-
+  
       console.log('[DEBUG] Item added successfully:', response.data);
-
+  
       setItems((prevItems) => [
         ...prevItems,
         {
           id: response.data.id || Date.now(), // Use backend ID or fallback
           type: itemType,
           content: content,
-          file_path: response.data.file_path, // Use file_path from backend
+          file_path: response.data.file_path, // Add the new file path directly
         },
       ]);
-      
-      if (file) URL.revokeObjectURL(file); // Only revoke if `URL.createObjectURL` was used
-      
-
-      if (file) URL.revokeObjectURL(file); // Clean up the object URL
+  
+      if (file) {
+        console.log('[DEBUG] Revoking object URL for file.');
+        URL.revokeObjectURL(file); // Only revoke if `URL.createObjectURL` was used
+      }
+  
       setItemType('');
       setContent('');
       setFile(null);
+      console.log('[DEBUG] Form fields reset after successful item addition.');
+
+      // Reload the page after adding the item
+      window.location.reload(); // This forces the page to reload
     } catch (error) {
       console.error('[ERROR] Failed to add item:', error.response?.data || error.message);
       alert('Failed to add item.');
@@ -120,7 +128,7 @@ function CollectionPage({ token }) {
       <h1>Collection Items</h1>
       <ul>
         {items.map((item, index) => (
-          <li key={item.id || index}>
+          <li key={item.id || index} className={item.isNew ? 'new-item' : ''}>
             <p>Type: {item.type}</p>
             {item.type === 'image' && item.file_path && (
             <>
@@ -135,13 +143,16 @@ function CollectionPage({ token }) {
             {item.type === 'video' && item.file_path && (
             <>
                 <video
-                src={item.file_path} // Use backend-provided path
+                src={item.file_path} // Use backend-provided file path
                 controls
-                style={{ maxWidth: '200px' }}
-                />
+                style={{ maxWidth: '400px', marginBottom: '10px' }} // Adjust size as needed
+                >
+                Your browser does not support the video tag.
+                </video>
                 <p>Description: {item.content}</p>
             </>
             )}
+
             {item.type === 'text' && <p>Content: {item.content}</p>}
           </li>
         ))}
