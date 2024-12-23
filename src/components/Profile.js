@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Profile({ token }) {
   const [profile, setProfile] = useState({});
@@ -7,7 +8,11 @@ function Profile({ token }) {
   const [skills, setSkills] = useState('');
   const [location, setLocation] = useState('');
   const [availability, setAvailability] = useState('');
+  const [collections, setCollections] = useState([]);
+  const [newCollectionName, setNewCollectionName] = useState('');
+  const navigate = useNavigate();
 
+  // Fetch profile and collections
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -19,9 +24,23 @@ function Profile({ token }) {
         alert('Failed to fetch profile.');
       }
     };
+
+    const fetchCollections = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/profile/collections', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setCollections(response.data);
+      } catch (error) {
+        alert('Failed to fetch collections.');
+      }
+    };
+
     fetchProfile();
+    fetchCollections();
   }, [token]);
 
+  // Update profile details
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -38,10 +57,36 @@ function Profile({ token }) {
     }
   };
 
+  const handleCreateCollection = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:5000/profile/collections',
+        { name: newCollectionName },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const { id } = response.data; // Extract the id from the response
+      if (id) {
+        setNewCollectionName('');
+        navigate(`/collections/${id}`); // Redirect to the new collection page
+      } else {
+        alert('Failed to retrieve collection ID. Please try again.');
+      }
+    } catch (error) {
+      console.error('Failed to create collection:', error.response?.data || error.message);
+      alert('Failed to create collection.');
+    }
+  };
+  
+
   return (
     <div>
       <h1>Your Profile</h1>
       <pre>{JSON.stringify(profile, null, 2)}</pre>
+
+      {/* Form to update profile */}
       <form onSubmit={handleUpdate}>
         <h2>Update Profile</h2>
         <input
@@ -69,6 +114,31 @@ function Profile({ token }) {
           onChange={(e) => setAvailability(e.target.value)}
         />
         <button type="submit">Update Profile</button>
+      </form>
+
+      {/* Display collections */}
+      <h2>Your Collections</h2>
+      <ul>
+        {collections.map((collection) => (
+          <li key={collection.id}>
+            <h3>{collection.name}</h3>
+            <button onClick={() => navigate(`/collections/${collection.id}`)}>
+              View and Add Items
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {/* Form to create a new collection */}
+      <form onSubmit={handleCreateCollection}>
+        <input
+          type="text"
+          placeholder="New Collection Name"
+          value={newCollectionName}
+          onChange={(e) => setNewCollectionName(e.target.value)}
+          required
+        />
+        <button type="submit">Create Collection</button>
       </form>
     </div>
   );

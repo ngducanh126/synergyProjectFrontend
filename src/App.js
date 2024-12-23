@@ -7,6 +7,7 @@ import Profile from './components/Profile';
 import Match from './components/Match';
 import MyMatches from './components/MyMatches';
 import ChatPage from './components/ChatPage'; // Import ChatPage
+import CollectionPage from './components/CollectionPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -40,6 +41,8 @@ function App() {
         <Route path="/match" element={isLoggedIn ? <Match token={token} /> : <div>Please log in first.</div>} />
         <Route path="/my-matches" element={isLoggedIn ? <MyMatches token={token} /> : <div>Please log in first.</div>} />
         <Route path="/chat/:receiverId" element={isLoggedIn ? <ChatPage token={token} /> : <div>Please log in first.</div>} />
+        <Route path="/collections/:collectionId" element={isLoggedIn ? <CollectionPage token={token} /> : <div>Please log in first.</div>} />
+
       </Routes>
     </div>
   );
