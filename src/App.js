@@ -11,6 +11,9 @@ import CollectionPage from './components/CollectionPage';
 import CollaborationsPage from './components/CollaborationsPage';
 import CollaborationDetailsPage from './components/CollaborationDetailsPage';
 import MyOwnCollaborationsPage from './components/MyOwnCollaborationsPage'; // Import MyCollaborationsPage
+import MyCollabRequestsPage from './components/MyCollabRequestsPage';
+import ApproveCollabRequestsPage from './components/ApproveCollabRequestsPage';
+import JoinedCollaborationsPage from './components/JoinedCollaborationsPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,6 +51,10 @@ function App() {
         <Route path="/collaborations" element={isLoggedIn ? <CollaborationsPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/collaborations/:collaborationId" element={isLoggedIn ? <CollaborationDetailsPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/my-collaborations" element={isLoggedIn ? <MyOwnCollaborationsPage token={token} /> : <div>Please log in first.</div>} />
+      
+        <Route path="/my-collab-requests" element={isLoggedIn ? <MyCollabRequestsPage token={token} /> : <div>Please log in first.</div>} />
+        <Route path="/approve-collab-requests" element={isLoggedIn ? <ApproveCollabRequestsPage token={token} /> : <div>Please log in first.</div>} />
+        <Route path="/joined-collaborations" element={isLoggedIn ? <JoinedCollaborationsPage token={token} /> : <div>Please log in first.</div>} />
       </Routes>
     </div>
   );

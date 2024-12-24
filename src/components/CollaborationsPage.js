@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
-import axios from 'axios'; // Import axios
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function CollaborationsPage({ token }) {
   const [collaborations, setCollaborations] = useState([]);
   const [error, setError] = useState('');
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
     const fetchCollaborations = async () => {
       console.log('[DEBUG] Fetching all collaborations...');
-      console.log('[DEBUG] Token being sent:', token); // Log the token for debugging
+      console.log('[DEBUG] Token being sent:', token);
       try {
         const response = await axios.get('http://127.0.0.1:5000/collaboration/view', {
           headers: {
-            Authorization: `Bearer ${token}`, // Ensure the token is passed
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
         });
@@ -26,8 +27,43 @@ function CollaborationsPage({ token }) {
       }
     };
 
+    const fetchCurrentUserId = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log('[DEBUG] Current user ID fetched:', response.data.id);
+        setCurrentUserId(response.data.id);
+      } catch (err) {
+        console.error('[ERROR] Failed to fetch current user ID:', err.response?.data || err.message);
+      }
+    };
+
     fetchCollaborations();
+    fetchCurrentUserId();
   }, [token]);
+
+  const handleRequestToJoin = async (collabId) => {
+    console.log(`[DEBUG] Requesting to join Collaboration ID: ${collabId}`);
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:5000/collaboration/${collabId}/request`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log('[DEBUG] Request to join successful:', response.data);
+      alert('Request to join sent successfully!');
+    } catch (err) {
+      console.error('[ERROR] Failed to send request:', err.response?.data || err.message);
+      alert(err.response?.data?.error || 'Failed to send request.');
+    }
+  };
 
   return (
     <div>
@@ -37,10 +73,11 @@ function CollaborationsPage({ token }) {
         {collaborations.map((collab) => (
           <li key={collab.id}>
             <strong>{collab.name}</strong>: {collab.description} (Admin: {collab.admin_name})
-            <br />
-            <Link to={`/collaborations/${collab.id}`}>
-              <button>View Details</button>
-            </Link>
+            {currentUserId === collab.admin_id ? (
+              <p style={{ color: 'green' }}>You are the admin of this collaboration.</p>
+            ) : (
+              <button onClick={() => handleRequestToJoin(collab.id)}>Request to Join</button>
+            )}
           </li>
         ))}
       </ul>

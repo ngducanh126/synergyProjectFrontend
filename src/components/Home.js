@@ -52,6 +52,15 @@ function Home({ isLoggedIn, handleLogout }) {
           <Link to="/my-collaborations">
             <button>View My Collaborations</button>
           </Link>
+          <Link to="/my-collab-requests">
+            <button>My Collab Requests</button>
+          </Link>
+          <Link to="/approve-collab-requests">
+            <button>Approve/Disprove Collab Requests</button>
+          </Link>
+          <Link to="/joined-collaborations">
+            <button>Collabs I Joined</button>
+          </Link>
           
           <button onClick={handleLogout}>Log Out</button>
 
