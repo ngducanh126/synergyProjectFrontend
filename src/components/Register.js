@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import './Login.css'; // Reuse the same CSS file
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -19,24 +21,37 @@ function Register() {
   };
 
   return (
-    <form onSubmit={handleRegister}>
-      <h1>Register</h1>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Register</button>
-    </form>
+    <div className="login-container">
+      <div className="logo"></div> {/* Placeholder for the logo */}
+      <form className="login-form" onSubmit={handleRegister}>
+        <h1 className="login-title">Register</h1>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="login-input"
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="login-input"
+          required
+        />
+        <button type="submit" className="login-button">
+          Register
+        </button>
+        <div className="register-container">
+          <span>Already have an account? </span>
+          <Link to="/login" className="register-link">
+            Sign In
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 }
 
