@@ -1,0 +1,146 @@
+/* General container */
+.page-container {
+    min-height: 100vh; /* Ensure it covers the full height of the viewport */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(180deg, #141e30, #243b55); /* Gradient background */
+    color: white;
+}
+
+/* Title styling */
+.page-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+    color: #66c0f4;
+    text-align: center;
+}
+
+/* Grid layout for collaborations */
+.collaborations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%; /* Extend grid to full width */
+    max-width: 1200px; /* Optional: Limit width for large screens */
+    padding: 20px;
+    box-sizing: border-box; /* Ensure padding doesn't exceed container width */
+}
+
+/* Card styling */
+.collaboration-card {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Image styling */
+.collaboration-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Collaboration name */
+.collaboration-name {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+/* Buttons */
+.info-button,
+.request-button {
+    background-color: #66c0f4;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+}
+
+.info-button:hover,
+.request-button:hover {
+    background-color: #00acc1;
+}
+
+/* Admin label */
+.admin-label {
+    color: #f39c12;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* Error message */
+.error-message {
+    color: #e74c3c;
+    margin-bottom: 20px;
+}
+
+/* Form container */
+.collaboration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Form inputs */
+.collaboration-input,
+.collaboration-textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #66c0f4;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Textarea-specific styling */
+.collaboration-textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* Placeholder text */
+.collaboration-input::placeholder,
+.collaboration-textarea::placeholder {
+    color: #b0b0b0;
+    font-style: italic;
+}
+
+/* Form submit button */
+.collaboration-form .action-button {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    background-color: #66c0f4;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.collaboration-form .action-button:hover {
+    background-color: #00acc1;
+}

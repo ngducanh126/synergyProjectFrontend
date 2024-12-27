@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './MatchPage.css'; // Import the CSS file
 
 function Match({ token }) {
   const [profiles, setProfiles] = useState([]);
@@ -72,20 +73,21 @@ function Match({ token }) {
   const currentProfile = profiles[currentIndex];
 
   return (
-    <div>
-      <h1>Match Page</h1>
-      {currentProfile && (
-        <div>
-          <h2>{currentProfile.username}</h2>
-          <p>{currentProfile.bio}</p>
-          <p>Skills: {currentProfile.skills?.join(', ')}</p>
-          <p>Location: {currentProfile.location}</p>
-          <button onClick={() => handleSwipeLeft()}>Swipe Left</button>
-          <button onClick={() => handleSwipeRight(currentProfile.id)}>Swipe Right</button>
-        </div>
-      )}
+    <div className="match-container">
+        <h1 className="match-title">Match Page</h1>
+        {currentProfile && (
+            <div className="profile-card">
+                <h2 className="profile-username">{currentProfile.username}</h2>
+                <p className="profile-info">{currentProfile.bio}</p>
+                <p className="profile-info">Skills: {currentProfile.skills?.join(', ')}</p>
+                <p className="profile-info">Location: {currentProfile.location}</p>
+                <button className="swipe-button" onClick={handleSwipeLeft}>Swipe Left</button>
+                <button className="swipe-button" onClick={() => handleSwipeRight(currentProfile.id)}>Swipe Right</button>
+            </div>
+        )}
     </div>
-  );
+);
+
 }
 
 export default Match;

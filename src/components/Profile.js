@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './ProfilePage.css';
+
 
 function Profile({ token }) {
   const [profile, setProfile] = useState({});
@@ -82,66 +84,78 @@ function Profile({ token }) {
   
 
   return (
-    <div>
-      <h1>Your Profile</h1>
-      <pre>{JSON.stringify(profile, null, 2)}</pre>
+    <div className="profile-container">
+        <h1 className="profile-title">Your Profile</h1>
 
-      {/* Form to update profile */}
-      <form onSubmit={handleUpdate}>
-        <h2>Update Profile</h2>
-        <input
-          type="text"
-          placeholder="Bio"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Skills (comma-separated)"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Availability"
-          value={availability}
-          onChange={(e) => setAvailability(e.target.value)}
-        />
-        <button type="submit">Update Profile</button>
-      </form>
+        {/* Profile details */}
+        <div className="profile-details">
+            <pre>{JSON.stringify(profile, null, 2)}</pre>
+        </div>
 
-      {/* Display collections */}
-      <h2>Your Collections</h2>
-      <ul>
-        {collections.map((collection) => (
-          <li key={collection.id}>
-            <h3>{collection.name}</h3>
-            <button onClick={() => navigate(`/collections/${collection.id}`)}>
-              View and Add Items
-            </button>
-          </li>
-        ))}
-      </ul>
+        {/* Form to update profile */}
+        <form className="form" onSubmit={handleUpdate}>
+            <h2>Update Profile</h2>
+            <input
+                type="text"
+                placeholder="Bio"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="Skills (comma-separated)"
+                value={skills}
+                onChange={(e) => setSkills(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="Location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="Availability"
+                value={availability}
+                onChange={(e) => setAvailability(e.target.value)}
+            />
+            <button type="submit">Update Profile</button>
+        </form>
 
-      {/* Form to create a new collection */}
-      <form onSubmit={handleCreateCollection}>
-        <input
-          type="text"
-          placeholder="New Collection Name"
-          value={newCollectionName}
-          onChange={(e) => setNewCollectionName(e.target.value)}
-          required
-        />
-        <button type="submit">Create Collection</button>
-      </form>
+        {/* Display collections */}
+        <div className="collections">
+            <h2>Your Collections</h2>
+            <ul className="collection-list">
+                {collections.map((collection) => (
+                    <li className="collection-item" key={collection.id}>
+                        <h3>{collection.name}</h3>
+                        <button onClick={() => navigate(`/collections/${collection.id}`)}>
+                            View and Add Items
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
+        {/* Form to create a new collection */}
+        <form className="form" onSubmit={handleCreateCollection}>
+            <input
+                type="text"
+                placeholder="New Collection Name"
+                value={newCollectionName}
+                onChange={(e) => setNewCollectionName(e.target.value)}
+                required
+            />
+            <button type="submit">Create Collection</button>
+        </form>
     </div>
-  );
+);
+
+
+
+
+
+
 }
 
 export default Profile;

@@ -58,9 +58,10 @@ function Home({ isLoggedIn, handleLogout }) {
             <Link to="/joined-collaborations">
               <button className="action-button">Collabs I Joined</button>
             </Link>
-            <button onClick={handleCreateCollaboration} className="action-button">
-              Create a New Collaboration
-            </button>
+            <Link to="/create-collaboration">
+              <button className="action-button">Create a New Collaboration</button>
+            </Link>
+
           </div>
           <div className="bottom-buttons">
             <Link to="/profile">

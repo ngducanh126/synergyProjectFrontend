@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './CollaborationPages.css'; // Import the shared CSS file
 
 function JoinedCollaborationsPage({ token }) {
   const [collaborations, setCollaborations] = useState([]);
@@ -38,19 +39,24 @@ function JoinedCollaborationsPage({ token }) {
   }, [token]);
 
   return (
-    <div>
-      <h1>Collaborations I Joined</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul>
-        {collaborations.map((collab) => (
-          <li key={collab.id}>
-            <strong>{collab.name}</strong> - {collab.description}
-            {currentUserId === collab.admin_id ? (
-              <p style={{ color: 'green' }}>You are the admin of this collaboration.</p>
-            ) : null}
-          </li>
-        ))}
-      </ul>
+    <div className="page-container">
+      <h1 className="page-title">Collaborations I Joined</h1>
+      {error && <p className="error-message">{error}</p>}
+      {collaborations.length === 0 ? (
+        <p className="empty-message">No collaborations to display.</p>
+      ) : (
+        <div className="collaborations-list">
+          {collaborations.map((collab) => (
+            <div className="collaboration-card" key={collab.id}>
+              <h2 className="collaboration-name">{collab.name}</h2>
+              <p className="collaboration-description">{collab.description}</p>
+              {currentUserId === collab.admin_id && (
+                <p className="admin-label">You are the admin of this collaboration.</p>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

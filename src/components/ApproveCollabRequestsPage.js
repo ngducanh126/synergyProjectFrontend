@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './CollaborationPages.css'; // Import the shared CSS file
 
 function ApproveCollabRequestsPage({ token }) {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -20,7 +21,7 @@ function ApproveCollabRequestsPage({ token }) {
         );
         console.log('[DEBUG] Admin requests fetched:', response.data);
         setRequests(response.data);
-        setError(''); // Clear any previous errors
+        setError('');
       } catch (err) {
         console.error('[ERROR] Failed to fetch admin requests:', err.response?.data || err.message);
         setError(err.response?.data?.error || 'Failed to fetch admin requests.');
@@ -47,7 +48,6 @@ function ApproveCollabRequestsPage({ token }) {
       );
       console.log('[DEBUG] Request processed successfully:', response.data);
       alert(`Request has been ${status}.`);
-      // Update the state to remove the processed request
       setRequests((prevRequests) => prevRequests.filter((req) => req.id !== requestId));
     } catch (err) {
       console.error('[ERROR] Failed to process request:', err.response?.data || err.message);
@@ -56,28 +56,38 @@ function ApproveCollabRequestsPage({ token }) {
   };
 
   if (loading) {
-    return <p>Loading requests...</p>;
+    return <p className="loading-message">Loading requests...</p>;
   }
 
   return (
-    <div>
-      <h1>Approve/Disprove Collaboration Requests</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="page-container">
+      <h1 className="page-title">Approve/Disprove Collaboration Requests</h1>
+      {error && <p className="error-message">{error}</p>}
       {requests.length === 0 ? (
-        <p>No requests to display.</p>
+        <p className="empty-message">No requests to display.</p>
       ) : (
-        <ul>
+        <div className="requests-list">
           {requests.map((req) => (
-            <li key={req.id}>
+            <div className="request-item" key={req.id}>
               <p>
                 <strong>User:</strong> {req.requester_name} <br />
                 <strong>Collaboration:</strong> {req.collaboration_name}
               </p>
-              <button onClick={() => handleDecision(req.id, 'approved')}>Approve</button>
-              <button onClick={() => handleDecision(req.id, 'rejected')}>Reject</button>
-            </li>
+              <button
+                className="approve-button"
+                onClick={() => handleDecision(req.id, 'approved')}
+              >
+                Approve
+              </button>
+              <button
+                className="reject-button"
+                onClick={() => handleDecision(req.id, 'rejected')}
+              >
+                Reject
+              </button>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

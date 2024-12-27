@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './CollaborationPages.css'; // Import the shared CSS file
 
 function MyCollabRequestsPage({ token }) {
   const [requests, setRequests] = useState([]);
@@ -23,16 +24,17 @@ function MyCollabRequestsPage({ token }) {
   }, [token]);
 
   return (
-    <div>
-      <h1>My Collaboration Requests</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul>
+    <div className="page-container">
+      <h1 className="page-title">My Collaboration Requests</h1>
+      {error && <p className="error-message">{error}</p>}
+      <div className="collaborations-grid">
         {requests.map((req) => (
-          <li key={req.id}>
-            Collaboration: {req.collaboration_name} - Status: {req.status}
-          </li>
+          <div className="collaboration-card" key={req.id}>
+            <h2 className="collaboration-name">{req.collaboration_name}</h2>
+            <p className="status-label">Status: {req.status}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './CollaborationPages.css'; // Import the shared CSS file
 
 function MyOwnCollaborationsPage({ token }) {
   const [collaborations, setCollaborations] = useState([]);
@@ -21,16 +22,17 @@ function MyOwnCollaborationsPage({ token }) {
   }, [token]);
 
   return (
-    <div>
-      <h1>My Collaborations</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul>
+    <div className="page-container">
+      <h1 className="page-title">My Collaborations</h1>
+      {error && <p className="error-message">{error}</p>}
+      <div className="collaborations-grid">
         {collaborations.map((collab) => (
-          <li key={collab.id}>
-            {collab.name}: {collab.description}
-          </li>
+          <div className="collaboration-card" key={collab.id}>
+            <h2 className="collaboration-name">{collab.name}</h2>
+            <p className="collaboration-description">{collab.description}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

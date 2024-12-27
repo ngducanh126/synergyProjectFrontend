@@ -1,0 +1,67 @@
+/* General container styling */
+.matches-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(180deg, #141e30, #243b55);
+    color: white;
+    padding: 20px;
+}
+
+/* Title styling */
+.matches-title {
+    font-size: 2.5rem;
+    color: #66c0f4;
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Matches list */
+.matches-list {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Match card */
+.match-card {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Match details */
+.match-username {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.match-info {
+    font-size: 1rem;
+    color: #b0b0b0;
+    margin-bottom: 10px;
+}
+
+/* Chat button */
+.chat-button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white;
+    background-color: #66c0f4;
+    transition: background-color 0.3s;
+}
+
+.chat-button:hover {
+    background-color: #00acc1;
+}
