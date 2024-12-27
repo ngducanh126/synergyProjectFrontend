@@ -1,7 +1,72 @@
+/* General body styling */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(180deg, #141e30, #243b55); /* Consistent gradient */
+  color: white;
+}
+
+/* App container */
 .App {
   text-align: center;
 }
 
+/* Header for App */
+.App-header {
+  background-color: #141e30;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+/* Navbar styling */
+nav {
+  display: flex;
+  justify-content: space-between; /* Spreads links evenly */
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+  padding: 15px 30px; /* Add space around the navbar */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Adds depth */
+  position: sticky; /* Stays at the top */
+  top: 0;
+  z-index: 1000;
+}
+
+/* Styling individual nav links */
+nav a {
+  color: #66c0f4; /* Consistent theme */
+  text-decoration: none; /* Removes underline */
+  font-weight: bold;
+  margin: 0 15px; /* Adds spacing between links */
+  font-size: 18px;
+  transition: color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+nav a:hover {
+  color: #00acc1; /* Slightly darker blue on hover */
+  transform: scale(1.1); /* Adds a zoom effect */
+}
+
+nav a:active {
+  color: #008b94; /* Even darker when clicked */
+}
+
+/* Navbar responsiveness */
+@media screen and (max-width: 768px) {
+  nav {
+    flex-direction: column; /* Stack links on smaller screens */
+    align-items: flex-start;
+  }
+  nav a {
+    margin: 10px 0; /* Adds vertical spacing for stacked links */
+    font-size: 16px;
+  }
+}
+
+/* App logo */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,21 +78,18 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
+/* Styling for the App link */
 .App-link {
-  color: #61dafb;
+  color: #66c0f4;
+  text-decoration: none;
 }
 
+.App-link:hover {
+  color: #00acc1;
+}
+
+
+/* Keyframes for logo spin animation */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +97,72 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Button styling */
+button {
+  background-color: #66c0f4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #00acc1;
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+button:active {
+  background-color: #008b94; /* Darker shade when clicked */
+  transform: translateY(0); /* Reset lift effect */
+}
+
+/* Input styling */
+input, textarea {
+  width: 80%;
+  max-width: 300px;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent input background */
+  color: white;
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6); /* Placeholder text */
+}
+
+/* Link buttons in forms */
+form a {
+  color: #66c0f4;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+form a:hover {
+  text-decoration: underline;
+}
+
+/* Section headers */
+h1, h2 {
+  color: #66c0f4;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+/* Form container styling */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background for forms */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }

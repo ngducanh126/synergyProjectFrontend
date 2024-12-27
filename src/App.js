@@ -35,10 +35,12 @@ function App() {
 
   return (
     <div>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/register">Register</Link> |{' '}
-        <Link to="/login">Login</Link>
+      <nav className="navbar">
+        <Link className="nav-link" to="/">Home</Link>
+        <Link className="nav-link" to="/register">Register</Link>
+        <Link className="nav-link" to="/login">Login</Link>
       </nav>
+
       <Routes>
         <Route path="/" element={<Home isLoggedIn={isLoggedIn} handleLogout={handleLogout} />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} />} />

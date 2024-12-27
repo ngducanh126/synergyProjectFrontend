@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './Home.css'; // Include a new CSS file for styling
 
 function Home({ isLoggedIn, handleLogout }) {
   const [name, setName] = useState('');
@@ -32,70 +33,55 @@ function Home({ isLoggedIn, handleLogout }) {
   };
 
   return (
-    <div>
-      <h1>Home Page</h1>
+    <div className="home-container">
+      <div className="logo"></div> {/* Logo at the top */}
       {isLoggedIn ? (
         <>
-          <p>You are logged in.</p>
-          <Link to="/profile">
-            <button>View Profile</button>
-          </Link>
-          <Link to="/match">
-            <button>Match</button>
-          </Link>
-          <Link to="/my-matches">
-            <button>My Matches</button>
-          </Link>
-          <Link to="/collaborations">
-            <button>View Collaborations</button>
-          </Link>
-          <Link to="/my-collaborations">
-            <button>View My Collaborations</button>
-          </Link>
-          <Link to="/my-collab-requests">
-            <button>My Collab Requests</button>
-          </Link>
-          <Link to="/approve-collab-requests">
-            <button>Approve/Disprove Collab Requests</button>
-          </Link>
-          <Link to="/joined-collaborations">
-            <button>Collabs I Joined</button>
-          </Link>
-          
-          <button onClick={handleLogout}>Log Out</button>
-
-          {/* Form to create a new collaboration */}
-          <div style={{ marginTop: '20px' }}>
-            <h2>Create a New Collaboration</h2>
-            <form onSubmit={handleCreateCollaboration}>
-              <input
-                type="text"
-                placeholder="Collaboration Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-              <br />
-              <textarea
-                placeholder="Collaboration Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <br />
-              <button type="submit">Create Collaboration</button>
-            </form>
+          <div className="button-row">
+            <Link to="/match">
+              <button className="action-button">Match</button>
+            </Link>
+          </div>
+          <div className="button-grid">
+            <Link to="/collaborations">
+              <button className="action-button">View Collaborations</button>
+            </Link>
+            <Link to="/my-collaborations">
+              <button className="action-button">View My Collaborations</button>
+            </Link>
+            <Link to="/my-collab-requests">
+              <button className="action-button">My Collab Requests</button>
+            </Link>
+            <Link to="/approve-collab-requests">
+              <button className="action-button">Approve/Disprove Collab Requests</button>
+            </Link>
+            <Link to="/joined-collaborations">
+              <button className="action-button">Collabs I Joined</button>
+            </Link>
+            <button onClick={handleCreateCollaboration} className="action-button">
+              Create a New Collaboration
+            </button>
+          </div>
+          <div className="bottom-buttons">
+            <Link to="/profile">
+              <button className="bottom-button">View Profile</button>
+            </Link>
+            <Link to="/my-matches">
+              <button className="bottom-button">Matches</button>
+            </Link>
+            <button onClick={handleLogout} className="bottom-button">Log Out</button>
           </div>
         </>
       ) : (
-        <>
+        <div className="auth-buttons">
           <p>You are not logged in.</p>
           <Link to="/register">
-            <button>Register</button>
+            <button className="auth-button">Register</button>
           </Link>
           <Link to="/login">
-            <button>Login</button>
+            <button className="auth-button">Login</button>
           </Link>
-        </>
+        </div>
       )}
     </div>
   );

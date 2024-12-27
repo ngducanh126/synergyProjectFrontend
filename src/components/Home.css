@@ -1,0 +1,103 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    background: linear-gradient(180deg, #141e30, #243b55);
+    color: white;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+  }
+  
+  .logo {
+    background: url('../assets/images/logo.png') no-repeat center center;
+    background-size: contain;
+    height: 120px;
+    width: 120px;
+    margin-bottom: 30px;
+  }
+  
+  .button-row {
+    margin-bottom: 20px;
+  }
+  
+  .button-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .action-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    width: 200px; /* Set uniform width */
+    height: 50px; /* Set uniform height */
+    border: none;
+    border-radius: 10px;
+    background: #00bcd4;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .action-button:hover {
+    background: #00acc1;
+  }
+  
+  .bottom-buttons {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .bottom-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 150px; /* Ensure uniform width */
+    height: 40px; /* Ensure uniform height */
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .bottom-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .auth-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .auth-button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #00bcd4;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .auth-button:hover {
+    background: #00acc1;
+  }
+  
