@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './MatchPage.css'; // Import the CSS file
 
 function Match({ token }) {
   const [profiles, setProfiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [collections, setCollections] = useState([]);
+  const navigate = useNavigate();
 
   // Fetch all other user profiles
   useEffect(() => {
@@ -27,6 +30,28 @@ function Match({ token }) {
 
     fetchProfiles();
   }, [token]);
+
+  // Fetch collections for the current profile
+  useEffect(() => {
+    const fetchCollections = async () => {
+      if (profiles.length > 0 && profiles[currentIndex]) {
+        try {
+          const response = await axios.get(`http://127.0.0.1:5000/profile/${profiles[currentIndex].id}/collections`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log("Fetched collections:", response.data); // Debugging log
+          setCollections(response.data);
+        } catch (error) {
+          console.error("Failed to load collections", error.response?.data?.message || error.message);
+          setCollections([]);
+        }
+      }
+    };
+
+    fetchCollections();
+  }, [profiles, currentIndex, token]);
 
   const handleSwipeRight = async (userId) => {
     try {
@@ -58,6 +83,10 @@ function Match({ token }) {
     setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
+  const handleViewCollection = (collectionId) => {
+    navigate(`/collections/${collectionId}`, { state: { currentIndex } });
+  };
+
   if (loading) {
     return <div>Loading profiles...</div>;
   }
@@ -74,20 +103,37 @@ function Match({ token }) {
 
   return (
     <div className="match-container">
-        <h1 className="match-title">Match Page</h1>
-        {currentProfile && (
-            <div className="profile-card">
-                <h2 className="profile-username">{currentProfile.username}</h2>
-                <p className="profile-info">{currentProfile.bio}</p>
-                <p className="profile-info">Skills: {currentProfile.skills?.join(', ')}</p>
-                <p className="profile-info">Location: {currentProfile.location}</p>
-                <button className="swipe-button" onClick={handleSwipeLeft}>Swipe Left</button>
-                <button className="swipe-button" onClick={() => handleSwipeRight(currentProfile.id)}>Swipe Right</button>
-            </div>
-        )}
+      <h1 className="match-title">Match Page</h1>
+      {currentProfile && (
+        <div className="profile-card">
+          <h2 className="profile-username">{currentProfile.username}</h2>
+          <p className="profile-info">{currentProfile.bio}</p>
+          <p className="profile-info">Skills: {currentProfile.skills?.join(', ')}</p>
+          <p className="profile-info">Location: {currentProfile.location}</p>
+          <h3>Collections:</h3>
+          {collections.length > 0 ? (
+            <ul>
+              {collections.map((collection) => (
+                <li key={collection.id}>
+                  {collection.name}
+                  {/* <button
+                    className="view-collection-button"
+                    onClick={() => handleViewCollection(collection.id)}
+                  >
+                    View Collection
+                  </button> */}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No collections available for this user.</p>
+          )}
+          <button className="swipe-button" onClick={handleSwipeLeft}>Swipe Left</button>
+          <button className="swipe-button" onClick={() => handleSwipeRight(currentProfile.id)}>Swipe Right</button>
+        </div>
+      )}
     </div>
-);
-
+  );
 }
 
 export default Match;

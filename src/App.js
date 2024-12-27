@@ -15,6 +15,7 @@ import MyCollabRequestsPage from './components/MyCollabRequestsPage';
 import ApproveCollabRequestsPage from './components/ApproveCollabRequestsPage';
 import JoinedCollaborationsPage from './components/JoinedCollaborationsPage';
 import CreateCollaborationPage from './components/CreateCollaborationPage'; // Import the new page
+import CollectionDetails from './components/CollectionDetails';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -58,6 +59,7 @@ function App() {
         <Route path="/approve-collab-requests" element={isLoggedIn ? <ApproveCollabRequestsPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/joined-collaborations" element={isLoggedIn ? <JoinedCollaborationsPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/create-collaboration" element={isLoggedIn ? <CreateCollaborationPage token={token} /> : <div>Please log in first.</div>} />
+        <Route path="/collections/:collectionId" element={<CollectionDetails token={token} />} />
       </Routes>
     </div>
   );
