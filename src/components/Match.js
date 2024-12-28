@@ -9,32 +9,23 @@ function Match({ token }) {
   const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation(); // Use location to extract query params
+  const location = useLocation();
 
-  // Extract collaboration_id from query parameters
   const queryParams = new URLSearchParams(location.search);
   const collaborationId = queryParams.get('collaboration_id');
 
   useEffect(() => {
     const fetchProfiles = async () => {
-      console.log('[DEBUG] Fetching profiles...');
-      if (collaborationId) {
-        console.log(`[DEBUG] Collaboration ID detected: ${collaborationId}`);
-      } else {
-        console.log('[DEBUG] No Collaboration ID provided.');
-      }
-
       try {
         const response = await axios.get('http://127.0.0.1:5000/match/get_others', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          params: collaborationId ? { collaboration_id: collaborationId } : {}, // Pass collaboration_id if exists
+          params: collaborationId ? { collaboration_id: collaborationId } : {},
         });
-        console.log('[DEBUG] Fetched profiles:', response.data); // Debugging log
         setProfiles(response.data);
       } catch (error) {
-        console.error('[DEBUG] Failed to load profiles:', error.response?.data?.message || error.message);
+        console.error('Failed to load profiles:', error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
       }
@@ -55,13 +46,9 @@ function Match({ token }) {
               },
             }
           );
-          console.log('[DEBUG] Fetched collections:', response.data); // Debugging log
           setCollections(response.data);
         } catch (error) {
-          console.error(
-            '[DEBUG] Failed to load collections',
-            error.response?.data?.message || error.message
-          );
+          console.error('Failed to load collections:', error.response?.data?.message || error.message);
           setCollections([]);
         }
       }
@@ -117,17 +104,43 @@ function Match({ token }) {
       <h1 className="match-title">Match Page</h1>
       {currentProfile && (
         <div className="profile-card">
+          {currentProfile.profile_picture && (
+            <img
+              src={currentProfile.profile_picture}
+              alt={`${currentProfile.username}'s profile`}
+              className="profile-picture"
+            />
+          )}
           <h2 className="profile-username">{currentProfile.username}</h2>
-          <p className="profile-info">{currentProfile.bio}</p>
-          <p className="profile-info">Skills: {currentProfile.skills?.join(', ')}</p>
-          <p className="profile-info">Location: {currentProfile.location}</p>
-          <h3>Collections:</h3>
+          {currentProfile.bio && <p className="profile-info">{currentProfile.bio}</p>}
+          {currentProfile.skills?.length > 0 && (
+            <p className="profile-info">Skills: {currentProfile.skills.join(', ')}</p>
+          )}
+          {currentProfile.location && (
+            <p className="profile-info">Location: {currentProfile.location}</p>
+          )}
           {collections.length > 0 ? (
-            <ul>
-              {collections.map((collection) => (
-                <li key={collection.id}>{collection.name}</li>
-              ))}
-            </ul>
+            <div className="collections">
+              <h2 className="collections-title">Collections:</h2>
+              <div className="collection-grid">
+                {collections.map((collection) => (
+                  <div className="collection-card" key={collection.id}>
+                    <h3 className="collection-name">{collection.name}</h3>
+                    <button
+                      className="view-collection-button"
+                      onClick={() =>
+                        navigate(`/collectioninfo/${collection.id}`, {
+                          state: { currentIndex },
+                        })
+                      }
+                    >
+                      View Collection
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           ) : (
             <p>No collections available for this user.</p>
           )}

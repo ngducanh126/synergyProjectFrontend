@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import './CollectionStyles.css'; // Import shared CSS file
 
 function CollectionPage({ token }) {
   const { collectionId } = useParams();
@@ -11,47 +12,43 @@ function CollectionPage({ token }) {
 
   useEffect(() => {
     const fetchItems = async () => {
-        console.log(`[DEBUG] Fetching items for Collection ID: ${collectionId}`);
-        try {
-            const response = await axios.get(
-                `http://127.0.0.1:5000/profile/collections/${collectionId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            console.log('[DEBUG] Items fetched from backend:', response.data);
+      console.log(`[DEBUG] Fetching items for Collection ID: ${collectionId}`);
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:5000/profile/collections/${collectionId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log('[DEBUG] Items fetched from backend:', response.data);
 
-            const updatedItems = response.data.map((item) => ({
-                ...item,
-                file_path: item.file_path || null,
-            }));
+        const updatedItems = response.data.map((item) => ({
+          ...item,
+          file_path: item.file_path || null,
+        }));
 
-            console.log('[DEBUG] Processed items with file paths:', updatedItems);
-            setItems(updatedItems);
-        } catch (error) {
-            console.error('[ERROR] Failed to fetch items:', error.response?.data || error.message);
-            alert('Failed to fetch items.');
-        }
+        console.log('[DEBUG] Processed items with file paths:', updatedItems);
+        setItems(updatedItems);
+      } catch (error) {
+        console.error('[ERROR] Failed to fetch items:', error.response?.data || error.message);
+        alert('Failed to fetch items.');
+      }
     };
     fetchItems();
-}, [collectionId, token]);
+  }, [collectionId, token]);
 
-  // Handle adding a new item
   const handleAddItem = async (e) => {
     e.preventDefault();
     console.log(
       `[DEBUG] Adding item to Collection ID: ${collectionId}, Type: ${itemType}, Content: ${content}, File: ${file?.name || 'None'}`
     );
-  
+
     try {
       let response;
-  
+
       if (itemType === 'text') {
-        console.log('[DEBUG] Sending text content...');
-        console.log('[DEBUG] Payload:', { type: itemType, content });
-  
         response = await axios.post(
           `http://127.0.0.1:5000/profile/collections/${collectionId}/items`,
           { type: itemType, content },
@@ -63,25 +60,20 @@ function CollectionPage({ token }) {
           }
         );
       } else {
-        console.log('[DEBUG] Sending image or video with description...');
         if (!file) {
-          console.warn('[WARNING] No file selected for upload.');
           alert('Please select a valid file.');
           return;
         }
         if (!content.trim()) {
-          console.warn('[WARNING] No description provided for the file.');
           alert('Please add a description.');
           return;
         }
-  
+
         const formData = new FormData();
         formData.append('type', itemType);
         formData.append('content', content);
         formData.append('file', file);
-        console.log('[DEBUG] FormData created:');
-        console.log(`[DEBUG] type: ${itemType}, content: ${content}, file: ${file.name}`);
-  
+
         response = await axios.post(
           `http://127.0.0.1:5000/profile/collections/${collectionId}/items`,
           formData,
@@ -92,31 +84,21 @@ function CollectionPage({ token }) {
           }
         );
       }
-  
-      console.log('[DEBUG] Item added successfully:', response.data);
-  
+
       setItems((prevItems) => [
         ...prevItems,
         {
-          id: response.data.id || Date.now(), // Use backend ID or fallback
+          id: response.data.id || Date.now(),
           type: itemType,
           content: content,
-          file_path: response.data.file_path, // Add the new file path directly
+          file_path: response.data.file_path,
         },
       ]);
-  
-      if (file) {
-        console.log('[DEBUG] Revoking object URL for file.');
-        URL.revokeObjectURL(file); // Only revoke if `URL.createObjectURL` was used
-      }
-  
+
       setItemType('');
       setContent('');
       setFile(null);
-      console.log('[DEBUG] Form fields reset after successful item addition.');
-
-      // Reload the page after adding the item
-      window.location.reload(); // This forces the page to reload
+      window.location.reload(); // Reload page to refresh data
     } catch (error) {
       console.error('[ERROR] Failed to add item:', error.response?.data || error.message);
       alert('Failed to add item.');
@@ -124,46 +106,46 @@ function CollectionPage({ token }) {
   };
 
   return (
-    <div>
-      <h1>Collection Items</h1>
-      <ul>
+    <div className="collection-container">
+      <h1 className="collection-header">Collection Items</h1>
+      <ul className="collection-list">
         {items.map((item, index) => (
-          <li key={item.id || index} className={item.isNew ? 'new-item' : ''}>
+          <li key={item.id || index} className="collection-item">
             <p>Type: {item.type}</p>
             {item.type === 'image' && item.file_path && (
-            <>
+              <>
                 <img
-                src={item.file_path} // Use backend-provided path
-                alt="Uploaded content"
-                style={{ maxWidth: '200px' }}
+                  src={item.file_path}
+                  alt="Uploaded content"
+                  className="collection-item-image"
                 />
                 <p>Description: {item.content}</p>
-            </>
+              </>
             )}
             {item.type === 'video' && item.file_path && (
-            <>
+              <>
                 <video
-                src={item.file_path} // Use backend-provided file path
-                controls
-                style={{ maxWidth: '400px', marginBottom: '10px' }} // Adjust size as needed
+                  src={item.file_path}
+                  controls
+                  className="collection-item-video"
                 >
-                Your browser does not support the video tag.
+                  Your browser does not support the video tag.
                 </video>
                 <p>Description: {item.content}</p>
-            </>
+              </>
             )}
-
             {item.type === 'text' && <p>Content: {item.content}</p>}
           </li>
         ))}
       </ul>
 
-      <form onSubmit={handleAddItem}>
-        <h2>Add Item</h2>
+      <form className="add-item-form" onSubmit={handleAddItem}>
+        <h2 className="add-item-header">Add Item</h2>
         <select
           value={itemType}
           onChange={(e) => setItemType(e.target.value)}
           required
+          className="add-item-select"
         >
           <option value="" disabled>
             Select Type
@@ -179,6 +161,7 @@ function CollectionPage({ token }) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
+            className="add-item-input"
           />
         )}
         {(itemType === 'image' || itemType === 'video') && (
@@ -188,6 +171,7 @@ function CollectionPage({ token }) {
               accept={itemType === 'image' ? 'image/*' : 'video/*'}
               onChange={(e) => setFile(e.target.files[0])}
               required
+              className="add-item-file"
             />
             <input
               type="text"
@@ -195,10 +179,11 @@ function CollectionPage({ token }) {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               required
+              className="add-item-input"
             />
           </>
         )}
-        <button type="submit">
+        <button type="submit" className="add-item-button">
           {itemType === 'text' ? 'Add Item' : 'Add Item with Description'}
         </button>
       </form>

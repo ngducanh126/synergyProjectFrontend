@@ -6,7 +6,7 @@ import './ProfilePage.css';
 function Profile({ token }) {
   const [profile, setProfile] = useState({});
   const [collections, setCollections] = useState([]);
-  const [newCollectionName, setNewCollectionName] = useState('');
+  const [collaborations, setCollaborations] = useState([]);
   const navigate = useNavigate();
 
   // Fetch profile and collections
@@ -17,6 +17,7 @@ function Profile({ token }) {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setProfile(response.data);
+        setCollaborations(response.data.collaborations || []);
       } catch (error) {
         alert('Failed to fetch profile.');
       }
@@ -37,83 +38,89 @@ function Profile({ token }) {
     fetchCollections();
   }, [token]);
 
-  // Create a new collection
-  const handleCreateCollection = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        'http://127.0.0.1:5000/profile/collections',
-        { name: newCollectionName },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const { id } = response.data; // Extract the id from the response
-      if (id) {
-        setNewCollectionName('');
-        setCollections((prev) => [...prev, { id, name: newCollectionName }]); // Add new collection to the list
-        alert('Collection created successfully.');
-      } else {
-        alert('Failed to retrieve collection ID. Please try again.');
-      }
-    } catch (error) {
-      console.error('Failed to create collection:', error.response?.data || error.message);
-      alert('Failed to create collection.');
-    }
-  };
-
   return (
     <div className="profile-container">
-      <h1 className="profile-title">Your Profile</h1>
+      {/* Logo */}
+      <header className="logo-container">
+        <h1 className="logo">Synergy</h1>
+      </header>
 
-      {/* Profile details */}
-      <div className="profile-details">
-        {profile.profile_picture && (
-          <img
-            src={`http://127.0.0.1:5000/${profile.profile_picture}`} // Use the relative path stored in the DB
-            alt="Profile"
-            className="profile-picture"
-          />
-        )}
-        <h2>Username: {profile.username}</h2>
-        <p>Bio: {profile.bio || 'No bio provided'}</p>
-        <p>Skills: {profile.skills?.join(', ') || 'No skills provided'}</p>
-        <p>Location: {profile.location || 'No location provided'}</p>
-        <p>Availability: {profile.availability || 'No availability status provided'}</p>
+      {/* Profile Section */}
+      <div className="profile-section">
+        {/* Profile Picture */}
+        <div className="profile-picture-container">
+          {profile.profile_picture ? (
+            <img
+              src={`http://127.0.0.1:5000/${profile.profile_picture}`}
+              alt="Profile"
+              className="profile-picture"
+            />
+          ) : (
+            <div className="default-profile-picture" />
+          )}
+          <h2 className="username">{profile.username || 'Username'}</h2>
+        </div>
+
+        {/* Bio and Location */}
+        <div className="bio-location">
+          <p className="bio">{profile.bio || 'No bio provided'}</p>
+          <p className="location">{profile.location || 'No location provided'}</p>
+        </div>
+
+        {/* Edit Profile Button */}
+        <button
+          className="edit-profile-button"
+          onClick={() => navigate('/profile/edit')}
+        >
+          Edit Profile
+        </button>
       </div>
-      <button
-        className="edit-profile-button"
-        onClick={() => navigate('/profile/edit')}
-      >
-        Edit Profile
-      </button>
 
-      {/* Display collections */}
-      <div className="collections">
-        <h2>Your Collections</h2>
-        <ul className="collection-list">
+      {/* Skills and Collaborations */}
+      <div className="details-section">
+        {/* Skills */}
+        <div className="skills-container">
+          <h2>SkillSet</h2>
+          <ul>
+            {profile.skills?.length > 0 ? (
+              profile.skills.map((skill, index) => <li key={index}>{skill}</li>)
+            ) : (
+              <p>No skills provided</p>
+            )}
+          </ul>
+        </div>
+
+        {/* Collaborations */}
+        <div className="collaborations-container">
+          <h2>Collabs</h2>
+          <ul>
+            {collaborations.length > 0 ? (
+              collaborations.map((collab) => (
+                <li key={collab.id}>
+                  <p>{collab.name}</p>
+                </li>
+              ))
+            ) : (
+              <p>No collaborations available</p>
+            )}
+          </ul>
+        </div>
+      </div>
+
+      {/* Portfolio Section */}
+      <div className="portfolio-section">
+        <h2>Portfolio</h2>
+        <div className="portfolio-grid">
           {collections.map((collection) => (
-            <li className="collection-item" key={collection.id}>
+            <div className="portfolio-card" key={collection.id}>
               <h3>{collection.name}</h3>
               <button onClick={() => navigate(`/collections/${collection.id}`)}>
                 View and Add Items
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
-
-      {/* Form to create a new collection */}
-      <form className="form" onSubmit={handleCreateCollection}>
-        <input
-          type="text"
-          placeholder="New Collection Name"
-          value={newCollectionName}
-          onChange={(e) => setNewCollectionName(e.target.value)}
-          required
-        />
-        <button type="submit">Create Collection</button>
-      </form>
     </div>
   );
 }

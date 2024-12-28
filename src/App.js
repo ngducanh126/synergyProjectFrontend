@@ -8,6 +8,7 @@ import Match from './components/Match';
 import MyMatches from './components/MyMatches';
 import ChatPage from './components/ChatPage';
 import CollectionPage from './components/CollectionPage';
+import CollectionInfo from './components/CollectionInfo'; 
 import CollaborationsPage from './components/CollaborationsPage';
 import CollaborationDetailsPage from './components/CollaborationDetailsPage';
 import MyOwnCollaborationsPage from './components/MyOwnCollaborationsPage';
@@ -54,6 +55,7 @@ function App() {
         <Route path="/my-matches" element={isLoggedIn ? <MyMatches token={token} /> : <div>Please log in first.</div>} />
         <Route path="/chat/:receiverId" element={isLoggedIn ? <ChatPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/collections/:collectionId" element={isLoggedIn ? <CollectionPage token={token} /> : <div>Please log in first.</div>} />
+        <Route path="/collectioninfo/:collectionId" element={isLoggedIn ? <CollectionInfo token={token} /> : <div>Please log in first.</div>} />
         <Route path="/collaborations" element={isLoggedIn ? <CollaborationsPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/collaborations/:collaborationId" element={isLoggedIn ? <CollaborationDetailsPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/my-collaborations" element={isLoggedIn ? <MyOwnCollaborationsPage token={token} /> : <div>Please log in first.</div>} />

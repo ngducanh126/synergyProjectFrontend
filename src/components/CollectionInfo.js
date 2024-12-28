@@ -1,32 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './CollectionStyles.css'; // Import the shared CSS file
 
-function CollectionDetails({ token }) {
-  const [collectionDetails, setCollectionDetails] = useState([]);
+function CollectionInfo({ token }) {
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { collectionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { collectionId, currentIndex } = location.state;
+  const { currentIndex } = location.state;
 
   useEffect(() => {
-    const fetchCollectionDetails = async () => {
+    const fetchCollectionItems = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/collections/${collectionId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCollectionDetails(response.data);
+        const response = await axios.get(
+          `http://127.0.0.1:5000/profile/collections/${collectionId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setItems(response.data);
       } catch (error) {
-        console.error('Failed to load collection details', error);
+        console.error('Failed to load collection items:', error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCollectionDetails();
+    fetchCollectionItems();
   }, [collectionId, token]);
 
   if (loading) {
@@ -35,18 +39,18 @@ function CollectionDetails({ token }) {
 
   return (
     <div className="collection-container">
-      <h1 className="collection-header">Collection Details</h1>
+      <h1 className="collection-header">Collection Info</h1>
       <button
         className="go-back-button"
         onClick={() => navigate('/match', { state: { currentIndex } })}
       >
         Go Back to Match Page
       </button>
-      {collectionDetails.length === 0 ? (
+      {items.length === 0 ? (
         <p className="empty-state">No items in this collection.</p>
       ) : (
         <ul className="collection-list">
-          {collectionDetails.map((item) => (
+          {items.map((item) => (
             <li key={item.id} className="collection-item">
               <p>Type: {item.type}</p>
               <p>Content: {item.content}</p>
@@ -61,4 +65,4 @@ function CollectionDetails({ token }) {
   );
 }
 
-export default CollectionDetails;
+export default CollectionInfo;

@@ -1,3 +1,6 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 /* General container styling */
 .match-container {
     min-height: 100vh;
@@ -8,25 +11,32 @@
     background: linear-gradient(180deg, #141e30, #243b55);
     color: white;
     padding: 20px;
+    font-family: 'Poppins', sans-serif; /* Updated to modern font */
 }
 
 /* Title styling */
 .match-title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     color: #66c0f4;
     margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif; /* Modern font */
+    font-weight: 600; /* Make the title bold */
 }
 
 /* Profile card styling */
 .profile-card {
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 15px;
     padding: 20px;
-    max-width: 400px;
+    max-width: 450px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     width: 100%;
+    transition: transform 0.2s ease-in-out; /* Add slight hover effect */
+}
+
+.profile-card:hover {
+    transform: translateY(-5px); /* Lift the card slightly on hover */
 }
 
 /* Profile details */
@@ -34,12 +44,23 @@
     font-size: 1.8rem;
     color: #ffffff;
     margin-bottom: 10px;
+    font-weight: 600; /* Modern weight */
 }
 
 .profile-info {
     font-size: 1rem;
     color: #b0b0b0;
     margin-bottom: 10px;
+    font-weight: 400; /* Lighter font weight for modern style */
+}
+
+/* Profile picture */
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #66c0f4;
+    margin-bottom: 15px;
 }
 
 /* Buttons */
@@ -49,12 +70,100 @@
     border: none;
     border-radius: 5px;
     font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     cursor: pointer;
     color: white;
     background-color: #66c0f4;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .swipe-button:hover {
     background-color: #00acc1;
+    transform: translateY(-3px); /* Slight hover effect */
 }
+
+/* Collections styling */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 5px 0;
+}
+
+button {
+    cursor: pointer;
+    background-color: #66c0f4;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #00acc1;
+}
+
+/* Title styling for collections */
+.collections-title {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+  }
+  
+  /* Collection grid styling */
+  .collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;
+  }
+  
+  /* Individual collection card */
+  .collection-card {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .collection-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Collection name styling */
+  .collection-name {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  
+  /* Button styling for view collection */
+  .view-collection-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white;
+    background-color: #66c0f4;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .view-collection-button:hover {
+    background-color: #00acc1;
+    transform: scale(1.05);
+  }
+  

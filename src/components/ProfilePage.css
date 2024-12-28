@@ -1,133 +1,149 @@
-/* General container */
+/* ProfilePage.css */
+
 .profile-container {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+    background-color: #1a1a2e;
     min-height: 100vh;
+  }
+  
+  /* Logo */
+  .logo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    background: linear-gradient(180deg, #141e30, #243b55); /* Gradient background */
-    color: white;
-    font-family: 'Arial', sans-serif;
-}
-
-/* Page title */
-.profile-title {
+    margin-bottom: 30px;
+  }
+  
+  .logo {
     font-size: 2.5rem;
-    color: #66c0f4;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Profile details */
-.profile-details {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 600px;
-    text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    margin-bottom: 20px;
-    color: #b0b0b0;
-    white-space: pre-wrap; /* For JSON formatting */
-}
-
-/* Form styling */
-.form {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 600px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.form h2 {
-    font-size: 1.8rem;
-    color: #66c0f4;
-    margin-bottom: 20px;
-}
-
-.form input {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #b0b0b0;
-    border-radius: 5px;
-    background-color: #1a1a1a;
-    color: white;
-    font-size: 1rem;
-}
-
-.form input::placeholder {
-    color: #b0b0b0;
-}
-
-.form button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    color: white;
-    background-color: #66c0f4;
-    transition: background-color 0.3s;
-}
-
-.form button:hover {
-    background-color: #00acc1;
-}
-
-/* Collections section */
-.collections {
-    max-width: 600px;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.collections h2 {
-    font-size: 1.8rem;
-    color: #66c0f4;
-    margin-bottom: 20px;
-}
-
-.collection-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.collection-item {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    font-weight: bold;
+    color: #00d4ff;
+    margin-top: 10px; /* Adds space between logo image and text */
+  }
+  
+  .logo-container img {
+    width: 80px; /* Adjust size as necessary */
+    height: 80px;
+    margin-bottom: 10px; /* Adds space between image and text */
+  }
+  
+  /* Profile Section */
+  .profile-section {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.collection-item h3 {
-    font-size: 1.2rem;
-    color: white;
-}
-
-.collection-item button {
-    padding: 10px 15px;
+    margin-bottom: 30px;
+  }
+  
+  .profile-picture-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-picture {
+    border: 5px solid #00d4ff;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+  }
+  
+  .default-profile-picture {
+    border: 5px solid #00d4ff;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    background-color: #555;
+  }
+  
+  .username {
+    font-size: 1.5rem;
+    margin-top: 10px;
+  }
+  
+  .bio-location {
+    margin-top: 20px;
+  }
+  
+  .bio {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+  }
+  
+  .location {
+    font-size: 1rem;
+    color: #aaa;
+  }
+  
+  /* Skills and Collaborations */
+  .details-section {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+  
+  .skills-container,
+  .collaborations-container {
+    background-color: #16213e;
+    padding: 15px;
+    border-radius: 8px;
+    width: 25%; /* Make boxes narrower */
+  }
+  
+  .skills-container h2,
+  .collaborations-container h2 {
+    color: #00d4ff;
+    margin-bottom: 15px;
+  }
+  
+  .skills-container ul,
+  .collaborations-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .skills-container li,
+  .collaborations-container li {
+    margin-bottom: 10px;
+  }
+  
+  /* Portfolio Section */
+  .portfolio-section {
+    margin-bottom: 30px;
+  }
+  
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 collections per row */
+    gap: 20px;
+  }
+  
+  .portfolio-card {
+    background-color: #16213e;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .portfolio-card h3 {
+    color: #00d4ff;
+    margin-bottom: 10px;
+  }
+  
+  .portfolio-card button {
+    margin-top: 10px;
+    background-color: #00d4ff;
+    color: #fff;
     border: none;
     border-radius: 5px;
-    font-size: 1rem;
+    padding: 5px 10px;
     cursor: pointer;
-    color: white;
-    background-color: #66c0f4;
-    transition: background-color 0.3s;
-}
-
-.collection-item button:hover {
-    background-color: #00acc1;
-}
+  }
+  
+  .portfolio-card button:hover {
+    background-color: #008cba;
+  }
+  
