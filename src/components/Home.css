@@ -1,103 +1,143 @@
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* General container styling */
 .home-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     height: 100vh;
-    background: linear-gradient(180deg, #141e30, #243b55);
+    background: linear-gradient(180deg, #141e30, #243b55); /* Darker background */
     color: white;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 20px;
-  }
-  
-  .logo {
+}
+
+/* Logo styling */
+.logo {
     background: url('../assets/images/logo.png') no-repeat center center;
     background-size: contain;
     height: 120px;
     width: 120px;
     margin-bottom: 30px;
-  }
-  
-  .button-row {
+}
+
+/* Button rows for layout */
+.button-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
     margin-bottom: 20px;
-  }
-  
-  .button-grid {
+}
+
+/* Button grid for collaboration actions */
+.button-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
-  }
-  
-  .action-button {
+    align-items: center; /* Align items properly */
+    justify-content: center; /* Center grid items */
+}
+
+/* Modernized action button styling */
+.action-button {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 15px;
-    width: 200px; /* Set uniform width */
-    height: 50px; /* Set uniform height */
+    width: 220px; /* Uniform width */
+    height: 50px; /* Uniform height */
     border: none;
-    border-radius: 10px;
-    background: #00bcd4;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #36d1dc, #5b86e5);
     color: white;
     font-size: 16px;
-    text-align: center;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .action-button:hover {
-    background: #00acc1;
-  }
-  
-  .bottom-buttons {
+    transition: transform 0.2s, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+/* Hover effects for action buttons */
+.action-button:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+/* Bottom buttons container */
+.bottom-buttons {
     position: absolute;
     bottom: 20px;
     display: flex;
     justify-content: space-around;
     width: 100%;
-    max-width: 500px;
-  }
-  
-  .bottom-button {
+    max-width: 600px;
+}
+
+/* Bottom button styling */
+.bottom-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    width: 150px; /* Ensure uniform width */
-    height: 40px; /* Ensure uniform height */
+    padding: 12px;
+    width: 180px; /* Ensure uniform width */
+    height: 50px; /* Ensure uniform height */
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.1);
     color: white;
     font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .bottom-button:hover {
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* Bottom button hover effect */
+.bottom-button:hover {
     background: rgba(255, 255, 255, 0.2);
-  }
-  
-  .auth-buttons {
+    transform: translateY(-2px);
+}
+
+/* Auth buttons styling */
+.auth-buttons {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .auth-button {
+}
+
+.auth-button {
     margin: 10px;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 10px;
-    background: #00bcd4;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #36d1dc, #5b86e5);
     color: white;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-  }
-  
-  .auth-button:hover {
-    background: #00acc1;
-  }
-  
+    transition: transform 0.2s, box-shadow 0.3s ease;
+}
+
+.auth-button:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+
+/* Remove underline for all links */
+a {
+    text-decoration: none;
+}
+
+/* Add hover effect for links (optional) */
+a:hover {
+    text-decoration: none; /* Ensure no underline appears on hover */
+}
+
+/* Adjust for buttons inside links */
+button {
+    text-decoration: none;
+}

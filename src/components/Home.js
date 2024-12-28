@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Home.css'; // Include a new CSS file for styling
+import './Home.css';
 
 function Home({ isLoggedIn, handleLogout }) {
   const [name, setName] = useState('');
@@ -13,7 +13,7 @@ function Home({ isLoggedIn, handleLogout }) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
         body: JSON.stringify({ name, description }),
       });
@@ -34,14 +34,19 @@ function Home({ isLoggedIn, handleLogout }) {
 
   return (
     <div className="home-container">
-      <div className="logo"></div> {/* Logo at the top */}
+      {/* Logo */}
+      <div className="logo"></div>
+
       {isLoggedIn ? (
         <>
+          {/* Match Button */}
           <div className="button-row">
             <Link to="/match">
               <button className="action-button">Match</button>
             </Link>
           </div>
+
+          {/* Collaboration Actions */}
           <div className="button-grid">
             <Link to="/collaborations">
               <button className="action-button">View Collaborations</button>
@@ -61,8 +66,9 @@ function Home({ isLoggedIn, handleLogout }) {
             <Link to="/create-collaboration">
               <button className="action-button">Create a New Collaboration</button>
             </Link>
-
           </div>
+
+          {/* Bottom Buttons */}
           <div className="bottom-buttons">
             <Link to="/profile">
               <button className="bottom-button">View Profile</button>
@@ -70,7 +76,9 @@ function Home({ isLoggedIn, handleLogout }) {
             <Link to="/my-matches">
               <button className="bottom-button">Matches</button>
             </Link>
-            <button onClick={handleLogout} className="bottom-button">Log Out</button>
+            <button onClick={handleLogout} className="bottom-button">
+              Log Out
+            </button>
           </div>
         </>
       ) : (

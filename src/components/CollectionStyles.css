@@ -1,0 +1,160 @@
+/* General Container Styling */
+.collection-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1f2937; /* Dark background */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header Styling */
+.collection-header {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    color: #66c0f4;
+}
+
+/* Go Back Button */
+.go-back-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.go-back-button:hover {
+    background-color: #0056b3;
+}
+
+/* List Styling */
+.collection-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Individual Collection Item */
+.collection-item {
+    background-color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+/* Text Content Styling */
+.collection-item p {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+/* Image Styling */
+.collection-item-image {
+    max-width: 100%;
+    max-height: 300px; /* Set a maximum height */
+    object-fit: cover; /* Maintain aspect ratio */
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Video Styling */
+.collection-item-video {
+    max-width: 100%;
+    max-height: 300px; /* Set a maximum height */
+    object-fit: cover; /* Maintain aspect ratio */
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Empty State Styling */
+.empty-state {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+    margin-top: 20px;
+}
+
+/* Loading Message */
+.loading-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+}
+
+
+/* Form Styling */
+.add-item-form {
+    margin-top: 30px;
+    background: rgba(0, 0, 0, 0.9); /* Dark form background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.add-item-header {
+    color: #66c0f4;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.add-item-select,
+.add-item-input,
+.add-item-file {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent input background */
+    color: white;
+}
+
+.add-item-select:focus,
+.add-item-input:focus,
+.add-item-file:focus {
+    outline: 2px solid #66c0f4; /* Blue outline on focus */
+}
+
+.add-item-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Go Back Button */
+.go-back-button {
+    background: linear-gradient(90deg, #007BFF, #0056b3); /* Gradient button */
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.go-back-button:hover {
+    background: linear-gradient(90deg, #0056b3, #003d80);
+    transform: translateY(-3px);
+}
+
+/* Empty State Message */
+.empty-state {
+    text-align: center;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 20px;
+}
