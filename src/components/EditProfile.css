@@ -1,0 +1,90 @@
+/* EditProfile.css */
+
+/* Container styling */
+.edit-profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Title styling */
+  .edit-profile-title {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Form styling */
+  .edit-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Label styling */
+  .edit-profile-form label {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Input and textarea styling */
+  .edit-profile-form input,
+  .edit-profile-form textarea {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  /* Focus state for inputs and textarea */
+  .edit-profile-form input:focus,
+  .edit-profile-form textarea:focus {
+    border-color: #007bff;
+  }
+  
+  /* Save button styling */
+  .save-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* Save button hover effect */
+  .save-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Current profile picture container */
+  .current-profile-picture {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Profile picture image styling */
+  .current-profile-picture img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    object-fit: cover;
+  }
+  
+  /* Current profile picture title */
+  .current-profile-picture h3 {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #555;
+  }
+  

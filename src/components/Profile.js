@@ -3,13 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
 
-
 function Profile({ token }) {
   const [profile, setProfile] = useState({});
-  const [bio, setBio] = useState('');
-  const [skills, setSkills] = useState('');
-  const [location, setLocation] = useState('');
-  const [availability, setAvailability] = useState('');
   const [collections, setCollections] = useState([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const navigate = useNavigate();
@@ -42,23 +37,7 @@ function Profile({ token }) {
     fetchCollections();
   }, [token]);
 
-  // Update profile details
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(
-        'http://127.0.0.1:5000/profile/update',
-        { bio, skills: skills.split(','), location, availability },
-        {
-          headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
-        }
-      );
-      alert('Profile updated successfully.');
-    } catch (error) {
-      alert('Failed to update profile.');
-    }
-  };
-
+  // Create a new collection
   const handleCreateCollection = async (e) => {
     e.preventDefault();
     try {
@@ -72,7 +51,8 @@ function Profile({ token }) {
       const { id } = response.data; // Extract the id from the response
       if (id) {
         setNewCollectionName('');
-        navigate(`/collections/${id}`); // Redirect to the new collection page
+        setCollections((prev) => [...prev, { id, name: newCollectionName }]); // Add new collection to the list
+        alert('Collection created successfully.');
       } else {
         alert('Failed to retrieve collection ID. Please try again.');
       }
@@ -81,81 +61,61 @@ function Profile({ token }) {
       alert('Failed to create collection.');
     }
   };
-  
 
   return (
     <div className="profile-container">
-        <h1 className="profile-title">Your Profile</h1>
+      <h1 className="profile-title">Your Profile</h1>
 
-        {/* Profile details */}
-        <div className="profile-details">
-            <pre>{JSON.stringify(profile, null, 2)}</pre>
-        </div>
+      {/* Profile details */}
+      <div className="profile-details">
+        {profile.profile_picture && (
+          <img
+            src={`http://127.0.0.1:5000/${profile.profile_picture}`} // Use the relative path stored in the DB
+            alt="Profile"
+            className="profile-picture"
+          />
+        )}
+        <h2>Username: {profile.username}</h2>
+        <p>Bio: {profile.bio || 'No bio provided'}</p>
+        <p>Skills: {profile.skills?.join(', ') || 'No skills provided'}</p>
+        <p>Location: {profile.location || 'No location provided'}</p>
+        <p>Availability: {profile.availability || 'No availability status provided'}</p>
+      </div>
+      <button
+        className="edit-profile-button"
+        onClick={() => navigate('/profile/edit')}
+      >
+        Edit Profile
+      </button>
 
-        {/* Form to update profile */}
-        <form className="form" onSubmit={handleUpdate}>
-            <h2>Update Profile</h2>
-            <input
-                type="text"
-                placeholder="Bio"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Skills (comma-separated)"
-                value={skills}
-                onChange={(e) => setSkills(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Availability"
-                value={availability}
-                onChange={(e) => setAvailability(e.target.value)}
-            />
-            <button type="submit">Update Profile</button>
-        </form>
+      {/* Display collections */}
+      <div className="collections">
+        <h2>Your Collections</h2>
+        <ul className="collection-list">
+          {collections.map((collection) => (
+            <li className="collection-item" key={collection.id}>
+              <h3>{collection.name}</h3>
+              <button onClick={() => navigate(`/collections/${collection.id}`)}>
+                View and Add Items
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-        {/* Display collections */}
-        <div className="collections">
-            <h2>Your Collections</h2>
-            <ul className="collection-list">
-                {collections.map((collection) => (
-                    <li className="collection-item" key={collection.id}>
-                        <h3>{collection.name}</h3>
-                        <button onClick={() => navigate(`/collections/${collection.id}`)}>
-                            View and Add Items
-                        </button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-
-        {/* Form to create a new collection */}
-        <form className="form" onSubmit={handleCreateCollection}>
-            <input
-                type="text"
-                placeholder="New Collection Name"
-                value={newCollectionName}
-                onChange={(e) => setNewCollectionName(e.target.value)}
-                required
-            />
-            <button type="submit">Create Collection</button>
-        </form>
+      {/* Form to create a new collection */}
+      <form className="form" onSubmit={handleCreateCollection}>
+        <input
+          type="text"
+          placeholder="New Collection Name"
+          value={newCollectionName}
+          onChange={(e) => setNewCollectionName(e.target.value)}
+          required
+        />
+        <button type="submit">Create Collection</button>
+      </form>
     </div>
-);
-
-
-
-
-
-
+  );
 }
 
 export default Profile;
