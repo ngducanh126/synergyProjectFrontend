@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CollaborationPages.css'; // Use the shared CSS
+import './CreateCollaboration.css'; // Use the correct CSS file
 
 function CreateCollaborationPage({ token }) {
   const [name, setName] = useState('');

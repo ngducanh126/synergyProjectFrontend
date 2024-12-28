@@ -1,0 +1,105 @@
+/* General container */
+.collaborations-container {
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    background: linear-gradient(180deg, #1c2833, #2c3e50); /* Full blue gradient */
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Title styling */
+.collaborations-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #66c0f4;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Error and success messages */
+.error-message {
+    color: #e74c3c;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    color: #2ecc71;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* Form container */
+.collaboration-form {
+    background: rgba(0, 0, 0, 0.85); /* Dark background for the form */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 500px; /* Limit form width */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between inputs */
+}
+
+/* Input fields */
+.collaboration-input,
+.collaboration-textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #66c0f4;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.95);
+    color: white;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.collaboration-input:focus,
+.collaboration-textarea:focus {
+    border-color: #00acc1; /* Focus color */
+}
+
+/* Textarea styling */
+.collaboration-textarea {
+    height: 120px;
+    resize: none;
+}
+
+/* Button */
+.action-button {
+    background: linear-gradient(90deg, #66c0f4, #00acc1);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s ease;
+}
+
+.action-button:hover {
+    background: linear-gradient(90deg, #00acc1, #3498db);
+    transform: translateY(-3px);
+}
+
+/* Reset body and html styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}

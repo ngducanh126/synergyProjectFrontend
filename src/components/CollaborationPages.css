@@ -1,57 +1,69 @@
 /* General container */
 .page-container {
-    min-height: 100vh; /* Ensure it covers the full height of the viewport */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    background: linear-gradient(180deg, #141e30, #243b55); /* Gradient background */
+    padding: 30px;
+    background: linear-gradient(180deg, #1c2833, #34495e); /* Modern gradient */
     color: white;
+    font-family: 'Poppins', sans-serif; /* Modern font */
 }
 
 /* Title styling */
 .page-title {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
+    font-size: 2.8rem;
+    margin-bottom: 25px;
     color: #66c0f4;
     text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #66c0f4; /* Underline effect */
+    padding-bottom: 10px;
 }
 
 /* Grid layout for collaborations */
 .collaborations-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    width: 100%; /* Extend grid to full width */
-    max-width: 1200px; /* Optional: Limit width for large screens */
-    padding: 20px;
-    box-sizing: border-box; /* Ensure padding doesn't exceed container width */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
 }
 
 /* Card styling */
 .collaboration-card {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 15px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.collaboration-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
 }
 
 /* Image styling */
 .collaboration-image {
     width: 100%;
-    height: 150px;
+    height: 180px;
     object-fit: cover;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Collaboration name */
 .collaboration-name {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
     color: #ffffff;
+    font-weight: 500;
 }
 
 /* Buttons */
@@ -60,29 +72,35 @@
     background-color: #66c0f4;
     border: none;
     color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-right: 5px;
-    transition: background-color 0.3s;
+    margin-right: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .info-button:hover,
 .request-button:hover {
     background-color: #00acc1;
+    transform: translateY(-2px);
 }
 
 /* Admin label */
 .admin-label {
-    color: #f39c12;
-    font-size: 0.9rem;
-    margin-top: 10px;
+    color: #f1c40f;
+    font-size: 1rem;
+    margin-top: 15px;
+    font-weight: bold;
 }
 
 /* Error message */
 .error-message {
     color: #e74c3c;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
 /* Form container */
@@ -92,30 +110,30 @@
     align-items: center;
     width: 100%;
     max-width: 500px;
-    margin-top: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 30px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }
 
 /* Form inputs */
 .collaboration-input,
 .collaboration-textarea {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    padding: 12px;
+    margin: 12px 0;
     border: 1px solid #66c0f4;
-    border-radius: 5px;
-    background: rgba(0, 0, 0, 0.9);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.95);
     color: white;
     font-size: 1rem;
-    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Textarea-specific styling */
 .collaboration-textarea {
-    height: 100px;
+    height: 120px;
     resize: none;
 }
 
@@ -128,19 +146,20 @@
 
 /* Form submit button */
 .collaboration-form .action-button {
-    margin-top: 10px;
+    margin-top: 15px;
     width: 100%;
-    text-align: center;
     background-color: #66c0f4;
     color: white;
-    padding: 10px 15px;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: 500;
 }
 
 .collaboration-form .action-button:hover {
     background-color: #00acc1;
+    transform: translateY(-2px);
 }

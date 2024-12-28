@@ -61,28 +61,32 @@ function CollaborationsPage({ token }) {
       <h1 className="page-title">Collaborations</h1>
       {error && <p className="error-message">{error}</p>}
       <div className="collaborations-grid">
-        {collaborations.map((collab) => (
-          <div className="collaboration-card" key={collab.id}>
+      {collaborations.map((collab) => (
+        <div className="collaboration-card" key={collab.id}>
+          {/* Conditionally render the image only if collab.photo exists */}
+          {collab.photo && (
             <img
-              src={collab.photo || '/assets/images/placeholder.png'} // Replace with actual photo URL or placeholder
+              src={collab.photo}
               alt={collab.name}
               className="collaboration-image"
             />
-            <h2 className="collaboration-name">{collab.name}</h2>
-            <button className="info-button">Info</button>
-            {currentUserId === collab.admin_id ? (
-              <p className="admin-label">You are the admin</p>
-            ) : (
-              <button
-                className="request-button"
-                onClick={() => handleRequestToJoin(collab.id)}
-              >
-                Request to Join
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
+          )}
+          <h2 className="collaboration-name">{collab.name}</h2>
+          <button className="info-button">Info</button>
+          {currentUserId === collab.admin_id ? (
+            <p className="admin-label">You are the admin</p>
+          ) : (
+            <button
+              className="request-button"
+              onClick={() => handleRequestToJoin(collab.id)}
+            >
+              Request to Join
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+
     </div>
   );
 }

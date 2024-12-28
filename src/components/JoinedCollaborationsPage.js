@@ -31,11 +31,12 @@ function JoinedCollaborationsPage({ token }) {
       {collaborations.length === 0 ? (
         <p className="empty-message">No collaborations to display.</p>
       ) : (
-        <div className="collaborations-list">
+        <div className="collaborations-grid"> {/* Changed to collaborations-grid */}
           {collaborations.map((collab) => (
             <div className="collaboration-card" key={collab.id}>
               <h2 className="collaboration-name">{collab.name}</h2>
               <p className="collaboration-description">{collab.description}</p>
+              <p className="collaboration-role">Role: {collab.role}</p> {/* Display role */}
               <button
                 className="start-matching-button"
                 onClick={() =>

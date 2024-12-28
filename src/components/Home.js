@@ -51,9 +51,9 @@ function Home({ isLoggedIn, handleLogout }) {
             <Link to="/collaborations">
               <button className="action-button">View Collaborations</button>
             </Link>
-            <Link to="/my-collaborations">
-              <button className="action-button">View My Collaborations</button>
-            </Link>
+            {/* <Link to="/my-collaborations">
+              <button className="action-button">Collaborations I created</button>
+            </Link> */}
             <Link to="/my-collab-requests">
               <button className="action-button">My Collab Requests</button>
             </Link>
