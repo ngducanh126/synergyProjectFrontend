@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './MatchPage.css'; // Import the CSS file
+import { useNavigate, useLocation } from 'react-router-dom';
+import './MatchPage.css';
 
 function Match({ token }) {
   const [profiles, setProfiles] = useState([]);
@@ -9,42 +9,59 @@ function Match({ token }) {
   const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation(); // Use location to extract query params
 
-  // Fetch all other user profiles
+  // Extract collaboration_id from query parameters
+  const queryParams = new URLSearchParams(location.search);
+  const collaborationId = queryParams.get('collaboration_id');
+
   useEffect(() => {
     const fetchProfiles = async () => {
+      console.log('[DEBUG] Fetching profiles...');
+      if (collaborationId) {
+        console.log(`[DEBUG] Collaboration ID detected: ${collaborationId}`);
+      } else {
+        console.log('[DEBUG] No Collaboration ID provided.');
+      }
+
       try {
         const response = await axios.get('http://127.0.0.1:5000/match/get_others', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          params: collaborationId ? { collaboration_id: collaborationId } : {}, // Pass collaboration_id if exists
         });
-        console.log("Fetched profiles:", response.data); // Debugging log
+        console.log('[DEBUG] Fetched profiles:', response.data); // Debugging log
         setProfiles(response.data);
       } catch (error) {
-        console.error(error.response?.data?.message || 'Failed to load profiles');
+        console.error('[DEBUG] Failed to load profiles:', error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
       }
     };
 
     fetchProfiles();
-  }, [token]);
+  }, [token, collaborationId]);
 
-  // Fetch collections for the current profile
   useEffect(() => {
     const fetchCollections = async () => {
       if (profiles.length > 0 && profiles[currentIndex]) {
         try {
-          const response = await axios.get(`http://127.0.0.1:5000/profile/${profiles[currentIndex].id}/collections`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          console.log("Fetched collections:", response.data); // Debugging log
+          const response = await axios.get(
+            `http://127.0.0.1:5000/profile/${profiles[currentIndex].id}/collections`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log('[DEBUG] Fetched collections:', response.data); // Debugging log
           setCollections(response.data);
         } catch (error) {
-          console.error("Failed to load collections", error.response?.data?.message || error.message);
+          console.error(
+            '[DEBUG] Failed to load collections',
+            error.response?.data?.message || error.message
+          );
           setCollections([]);
         }
       }
@@ -71,7 +88,6 @@ function Match({ token }) {
         alert('Swiped right successfully.');
       }
 
-      // Move to the next profile
       setCurrentIndex((prevIndex) => prevIndex + 1);
     } catch (error) {
       alert(error.response?.data?.message || 'Failed to swipe right');
@@ -79,12 +95,7 @@ function Match({ token }) {
   };
 
   const handleSwipeLeft = () => {
-    // Move to the next profile without doing anything
     setCurrentIndex((prevIndex) => prevIndex + 1);
-  };
-
-  const handleViewCollection = (collectionId) => {
-    navigate(`/collections/${collectionId}`, { state: { currentIndex } });
   };
 
   if (loading) {
@@ -114,22 +125,21 @@ function Match({ token }) {
           {collections.length > 0 ? (
             <ul>
               {collections.map((collection) => (
-                <li key={collection.id}>
-                  {collection.name}
-                  {/* <button
-                    className="view-collection-button"
-                    onClick={() => handleViewCollection(collection.id)}
-                  >
-                    View Collection
-                  </button> */}
-                </li>
+                <li key={collection.id}>{collection.name}</li>
               ))}
             </ul>
           ) : (
             <p>No collections available for this user.</p>
           )}
-          <button className="swipe-button" onClick={handleSwipeLeft}>Swipe Left</button>
-          <button className="swipe-button" onClick={() => handleSwipeRight(currentProfile.id)}>Swipe Right</button>
+          <button className="swipe-button" onClick={handleSwipeLeft}>
+            Swipe Left
+          </button>
+          <button
+            className="swipe-button"
+            onClick={() => handleSwipeRight(currentProfile.id)}
+          >
+            Swipe Right
+          </button>
         </div>
       )}
     </div>

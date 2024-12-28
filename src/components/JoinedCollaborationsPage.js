@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './CollaborationPages.css'; // Import the shared CSS file
+import './CollaborationPages.css';
 
 function JoinedCollaborationsPage({ token }) {
   const [collaborations, setCollaborations] = useState([]);
   const [error, setError] = useState('');
-  const [currentUserId, setCurrentUserId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCollaborations = async () => {
@@ -20,22 +21,7 @@ function JoinedCollaborationsPage({ token }) {
         setError(err.response?.data?.error || 'Failed to fetch collaborations.');
       }
     };
-
-    const fetchCurrentUserId = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:5000/auth/me', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCurrentUserId(response.data.id);
-      } catch (err) {
-        console.error('[ERROR] Failed to fetch current user ID:', err.response?.data || err.message);
-      }
-    };
-
     fetchCollaborations();
-    fetchCurrentUserId();
   }, [token]);
 
   return (
@@ -50,9 +36,14 @@ function JoinedCollaborationsPage({ token }) {
             <div className="collaboration-card" key={collab.id}>
               <h2 className="collaboration-name">{collab.name}</h2>
               <p className="collaboration-description">{collab.description}</p>
-              {currentUserId === collab.admin_id && (
-                <p className="admin-label">You are the admin of this collaboration.</p>
-              )}
+              <button
+                className="start-matching-button"
+                onClick={() =>
+                  navigate(`/match?collaboration_id=${collab.id}`) // Pass collaboration_id as a query parameter
+                }
+              >
+                Start Matching
+              </button>
             </div>
           ))}
         </div>
