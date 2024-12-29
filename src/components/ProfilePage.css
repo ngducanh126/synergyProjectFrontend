@@ -1,5 +1,3 @@
-/* ProfilePage.css */
-
 .profile-container {
     font-family: 'Arial', sans-serif;
     text-align: center;
@@ -7,133 +5,152 @@
     color: #fff;
     background-color: #1a1a2e;
     min-height: 100vh;
-  }
-  
-  /* Logo */
-  .logo-container {
+}
+
+/* Logo */
+.logo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 30px;
-  }
-  
-  .logo {
+}
+
+.logo {
     font-size: 2.5rem;
     font-weight: bold;
     color: #00d4ff;
-    margin-top: 10px; /* Adds space between logo image and text */
-  }
-  
-  .logo-container img {
-    width: 80px; /* Adjust size as necessary */
+    margin-top: 10px;
+}
+
+.logo-container img {
+    width: 80px;
     height: 80px;
-    margin-bottom: 10px; /* Adds space between image and text */
-  }
-  
-  /* Profile Section */
-  .profile-section {
+    margin-bottom: 10px;
+}
+
+/* Profile Section */
+.profile-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 30px;
-  }
-  
-  .profile-picture-container {
+}
+
+.profile-picture-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .profile-picture {
+}
+
+.profile-picture {
     border: 5px solid #00d4ff;
     border-radius: 50%;
     width: 120px;
     height: 120px;
-  }
-  
-  .default-profile-picture {
+}
+
+.default-profile-picture {
     border: 5px solid #00d4ff;
     border-radius: 50%;
     width: 120px;
     height: 120px;
     background-color: #555;
-  }
-  
-  .username {
+}
+
+.username {
     font-size: 1.5rem;
     margin-top: 10px;
-  }
-  
-  .bio-location {
+}
+
+.bio-location {
     margin-top: 20px;
-  }
-  
-  .bio {
+}
+
+.bio {
     font-size: 1.1rem;
     margin-bottom: 5px;
-  }
-  
-  .location {
+}
+
+.location {
     font-size: 1rem;
     color: #aaa;
-  }
-  
-  /* Skills and Collaborations */
-  .details-section {
+}
+
+/* Skills and Collaborations */
+.details-section {
     display: flex;
-    justify-content: space-around;
+    justify-content: center; /* Center the boxes horizontally */
+    gap: 20px; /* Add a consistent gap between the boxes */
     margin-bottom: 30px;
-  }
-  
-  .skills-container,
-  .collaborations-container {
+}
+
+.skills-container,
+.collaborations-container {
     background-color: #16213e;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
-    width: 25%; /* Make boxes narrower */
-  }
-  
-  .skills-container h2,
-  .collaborations-container h2 {
+    flex: 1; /* Dynamically adjust width */
+    max-width: 300px; /* Restrict maximum width */
+    min-width: 200px; /* Restrict minimum width */
+    max-height: 400px; /* Restrict maximum height */
+    overflow-y: auto; /* Add scrollbar if content overflows */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Align content in the center */
+    text-align: center; /* Align text for all child elements */
+}
+
+.skills-container h2,
+.collaborations-container h2 {
     color: #00d4ff;
     margin-bottom: 15px;
-  }
-  
-  .skills-container ul,
-  .collaborations-container ul {
+    font-family: 'Arial', sans-serif; /* Ensure consistent font family */
+    font-size: 1.5rem; /* Consistent font size */
+    text-align: center;
+}
+
+.skills-container ul,
+.collaborations-container ul {
     list-style-type: none;
     padding: 0;
-  }
-  
-  .skills-container li,
-  .collaborations-container li {
+    margin: 0;
+    text-align: center; /* Align text in the center */
+}
+
+.skills-container li,
+.collaborations-container li {
     margin-bottom: 10px;
-  }
-  
-  /* Portfolio Section */
-  .portfolio-section {
+    color: #ddd;
+    font-family: 'Arial', sans-serif; /* Ensure consistent font family */
+    font-size: 1rem; /* Consistent font size */
+}
+
+/* Portfolio Section */
+.portfolio-section {
     margin-bottom: 30px;
-  }
-  
-  .portfolio-grid {
+}
+
+.portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 collections per row */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
     gap: 20px;
-  }
-  
-  .portfolio-card {
+}
+
+.portfolio-card {
     background-color: #16213e;
     padding: 15px;
     border-radius: 8px;
     text-align: center;
-  }
-  
-  .portfolio-card h3 {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.portfolio-card h3 {
     color: #00d4ff;
     margin-bottom: 10px;
-  }
-  
-  .portfolio-card button {
+}
+
+.portfolio-card button {
     margin-top: 10px;
     background-color: #00d4ff;
     color: #fff;
@@ -141,9 +158,8 @@
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
-  }
-  
-  .portfolio-card button:hover {
+}
+
+.portfolio-card button:hover {
     background-color: #008cba;
-  }
-  
+}

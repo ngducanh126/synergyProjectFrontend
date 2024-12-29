@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import './CollectionStyles.css'; // Import shared CSS file
+import './CollectionStyles.css';
 
 function CollectionPage({ token }) {
   const { collectionId } = useParams();
@@ -10,9 +10,9 @@ function CollectionPage({ token }) {
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
 
+  // Fetch items on component mount
   useEffect(() => {
     const fetchItems = async () => {
-      console.log(`[DEBUG] Fetching items for Collection ID: ${collectionId}`);
       try {
         const response = await axios.get(
           `http://127.0.0.1:5000/profile/collections/${collectionId}`,
@@ -22,45 +22,35 @@ function CollectionPage({ token }) {
             },
           }
         );
-        console.log('[DEBUG] Items fetched from backend:', response.data);
-
-        const updatedItems = response.data.map((item) => ({
-          ...item,
-          file_path: item.file_path || null,
-        }));
-
-        console.log('[DEBUG] Processed items with file paths:', updatedItems);
-        setItems(updatedItems);
+        setItems(response.data);
       } catch (error) {
-        console.error('[ERROR] Failed to fetch items:', error.response?.data || error.message);
         alert('Failed to fetch items.');
       }
     };
     fetchItems();
   }, [collectionId, token]);
 
+  // Add new item logic
   const handleAddItem = async (e) => {
     e.preventDefault();
-    console.log(
-      `[DEBUG] Adding item to Collection ID: ${collectionId}, Type: ${itemType}, Content: ${content}, File: ${file?.name || 'None'}`
-    );
+
+    // Validation
+    if (!file) {
+      alert('Please select a valid file.');
+      return;
+    }
+    if (!content.trim()) {
+      alert('Please provide a description.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('type', itemType);
+    formData.append('content', content);
+    formData.append('file', file);
 
     try {
-      if (!file) {
-        alert('Please select a valid file.');
-        return;
-      }
-      if (!content.trim()) {
-        alert('Please add a description.');
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('type', itemType);
-      formData.append('content', content);
-      formData.append('file', file);
-
-      const response = await axios.post(
+      await axios.post(
         `http://127.0.0.1:5000/profile/collections/${collectionId}/items`,
         formData,
         {
@@ -70,22 +60,9 @@ function CollectionPage({ token }) {
         }
       );
 
-      setItems((prevItems) => [
-        ...prevItems,
-        {
-          id: response.data.id || Date.now(),
-          type: itemType,
-          content: content,
-          file_path: response.data.file_path,
-        },
-      ]);
-
-      setItemType('');
-      setContent('');
-      setFile(null);
-      window.location.reload(); // Reload page to refresh data
+      // Refresh the page after adding an item
+      window.location.reload();
     } catch (error) {
-      console.error('[ERROR] Failed to add item:', error.response?.data || error.message);
       alert('Failed to add item.');
     }
   };
@@ -93,34 +70,35 @@ function CollectionPage({ token }) {
   return (
     <div className="collection-container">
       <h1 className="collection-header">Collection Items</h1>
-      <ul className="collection-list">
-        {items.map((item, index) => (
-          <li key={item.id || index} className="collection-item">
-            <p>Type: {item.type}</p>
-            {item.file_path && (
-              <>
-                {item.type === 'image' && (
-                  <img
-                    src={item.file_path}
-                    alt="Uploaded content"
-                    className="collection-item-image"
-                  />
-                )}
-                {item.type === 'video' && (
-                  <video
-                    src={item.file_path}
-                    controls
-                    className="collection-item-video"
-                  >
-                    Your browser does not support the video tag.
-                  </video>
-                )}
-                <p>Description: {item.content}</p>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="collection-grid">
+        {items.length === 0 ? (
+          <p className="empty-collection-message">No items in this collection. Add some items to get started!</p>
+        ) : (
+          items.map((item, index) => (
+            <div key={index} className="collection-card">
+              {item.file_path && (
+                <>
+                  {item.type === 'image' && (
+                    <img
+                      src={item.file_path}
+                      alt="Uploaded content"
+                      className="collection-card-image"
+                    />
+                  )}
+                  {item.type === 'video' && (
+                    <video
+                      src={item.file_path}
+                      controls
+                      className="collection-card-video"
+                    ></video>
+                  )}
+                </>
+              )}
+              <p>{item.content}</p>
+            </div>
+          ))
+        )}
+      </div>
 
       <form className="add-item-form" onSubmit={handleAddItem}>
         <h2 className="add-item-header">Add Item</h2>
@@ -152,7 +130,7 @@ function CollectionPage({ token }) {
           className="add-item-input"
         />
         <button type="submit" className="add-item-button">
-          Add Item with Description
+          Add Item
         </button>
       </form>
     </div>
