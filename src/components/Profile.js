@@ -7,6 +7,8 @@ function Profile({ token }) {
   const [profile, setProfile] = useState({});
   const [collections, setCollections] = useState([]);
   const [collaborations, setCollaborations] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [newCollectionName, setNewCollectionName] = useState('');
   const navigate = useNavigate();
 
   // Fetch profile and collections
@@ -38,6 +40,32 @@ function Profile({ token }) {
     fetchCollections();
   }, [token]);
 
+  // Handle creating a new collection
+  const handleCreateCollection = async (e) => {
+    e.preventDefault();
+    if (!newCollectionName.trim()) {
+      alert('Collection name is required.');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:5000/profile/collections',
+        { name: newCollectionName },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const newCollectionId = response.data.id;
+      setShowModal(false);
+      setNewCollectionName('');
+      navigate(`/collections/${newCollectionId}`);
+    } catch (error) {
+      alert('Failed to create collection.');
+    }
+  };
+
   return (
     <div className="profile-container">
       {/* Logo */}
@@ -47,7 +75,6 @@ function Profile({ token }) {
 
       {/* Profile Section */}
       <div className="profile-section">
-        {/* Profile Picture */}
         <div className="profile-picture-container">
           {profile.profile_picture ? (
             <img
@@ -60,14 +87,10 @@ function Profile({ token }) {
           )}
           <h2 className="username">{profile.username || 'Username'}</h2>
         </div>
-
-        {/* Bio and Location */}
         <div className="bio-location">
           <p className="bio">{profile.bio || 'No bio provided'}</p>
           <p className="location">{profile.location || 'No location provided'}</p>
         </div>
-
-        {/* Edit Profile Button */}
         <button
           className="edit-profile-button"
           onClick={() => navigate('/profile/edit')}
@@ -78,7 +101,6 @@ function Profile({ token }) {
 
       {/* Skills and Collaborations */}
       <div className="details-section">
-        {/* Skills */}
         <div className="skills-container">
           <h2>SkillSet</h2>
           <ul>
@@ -89,8 +111,6 @@ function Profile({ token }) {
             )}
           </ul>
         </div>
-
-        {/* Collaborations */}
         <div className="collaborations-container">
           <h2>Collabs</h2>
           <ul>
@@ -121,6 +141,42 @@ function Profile({ token }) {
           ))}
         </div>
       </div>
+
+      {/* Create Collection Button */}
+      <button
+        className="create-collection-button"
+        onClick={() => setShowModal(true)}
+      >
+        Create New Collection
+      </button>
+
+      {/* Modal for Creating Collection */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Create New Collection</h2>
+            <form onSubmit={handleCreateCollection}>
+              <input
+                type="text"
+                placeholder="Enter collection name"
+                value={newCollectionName}
+                onChange={(e) => setNewCollectionName(e.target.value)}
+                className="modal-input"
+              />
+              <button type="submit" className="modal-submit-button">
+                Create
+              </button>
+              <button
+                type="button"
+                className="modal-cancel-button"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import './CollectionStyles.css'; // Import the shared CSS file
+import './CollectionStyles.css';
 
 function CollectionInfo({ token }) {
   const [items, setItems] = useState([]);
@@ -40,27 +40,40 @@ function CollectionInfo({ token }) {
   return (
     <div className="collection-container">
       <h1 className="collection-header">Collection Info</h1>
+      <div className="collection-grid">
+        {items.length === 0 ? (
+          <p className="empty-collection-message">No items in this collection.</p>
+        ) : (
+          items.map((item, index) => (
+            <div key={index} className="collection-card">
+              {item.file_path && (
+                <>
+                  {item.file_path.endsWith('.mp4') || item.file_path.endsWith('.webm') ? (
+                    <video
+                      src={item.file_path}
+                      controls
+                      className="collection-card-video"
+                    ></video>
+                  ) : (
+                    <img
+                      src={item.file_path}
+                      alt="Collection Item"
+                      className="collection-card-image"
+                    />
+                  )}
+                </>
+              )}
+              <p>{item.content}</p>
+            </div>
+          ))
+        )}
+      </div>
       <button
         className="go-back-button"
         onClick={() => navigate('/match', { state: { currentIndex } })}
       >
         Go Back to Match Page
       </button>
-      {items.length === 0 ? (
-        <p className="empty-state">No items in this collection.</p>
-      ) : (
-        <ul className="collection-list">
-          {items.map((item) => (
-            <li key={item.id} className="collection-item">
-              <p>Type: {item.type}</p>
-              <p>Content: {item.content}</p>
-              {item.file_path && (
-                <img src={item.file_path} alt="Collection Item" className="collection-item-image" />
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }
