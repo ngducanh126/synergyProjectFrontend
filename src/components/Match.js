@@ -104,12 +104,14 @@ function Match({ token }) {
       <h1 className="match-title">Match Page</h1>
       {currentProfile && (
         <div className="profile-card">
-          {currentProfile.profile_picture && (
+          {currentProfile.profile_picture ? (
             <img
-              src={currentProfile.profile_picture}
+              src={`http://127.0.0.1:5000/${currentProfile.profile_picture}`}
               alt={`${currentProfile.username}'s profile`}
               className="profile-picture"
             />
+          ) : (
+            <div className="profile-placeholder">No Picture</div>
           )}
           <h2 className="profile-username">{currentProfile.username}</h2>
           {currentProfile.bio && <p className="profile-info">{currentProfile.bio}</p>}
@@ -140,7 +142,6 @@ function Match({ token }) {
                 ))}
               </div>
             </div>
-
           ) : (
             <p>No collections available for this user.</p>
           )}

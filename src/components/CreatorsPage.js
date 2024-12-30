@@ -37,6 +37,16 @@ function CreatorsPage({ token }) {
       <div className="creators-grid">
         {creators.map((creator) => (
           <div key={creator.id} className="creator-card">
+            {/* Conditionally render profile picture */}
+            {creator.profile_picture ? (
+              <img
+                src={`http://127.0.0.1:5000/${creator.profile_picture}`} // Prepend base URL
+                alt={`${creator.username}'s profile`}
+                className="creator-image"
+              />
+            ) : (
+              <div className="creator-placeholder">No Picture</div>
+            )}
             <h3 className="creator-username">{creator.username}</h3>
             <p className="creator-bio">{creator.bio || 'No bio provided.'}</p>
             <p className="creator-location">Location: {creator.location || 'N/A'}</p>
