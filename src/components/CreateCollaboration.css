@@ -1,15 +1,17 @@
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 /* General container */
 .collaborations-container {
-    height: 100vh; /* Full viewport height */
+    min-height: 100vh; /* Full viewport height */
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-    background: linear-gradient(180deg, #1c2833, #2c3e50); /* Full blue gradient */
+    justify-content: center; /* Vertically center */
+    align-items: center; /* Horizontally center */
+    background: linear-gradient(180deg, #1c2833, #2c3e50); /* Gradient background */
     color: white;
     font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
+    padding: 20px;
     box-sizing: border-box;
 }
 
@@ -21,85 +23,94 @@
     text-align: center;
     text-transform: uppercase;
     font-weight: bold;
-    letter-spacing: 1px;
-}
-
-/* Error and success messages */
-.error-message {
-    color: #e74c3c;
-    font-size: 1rem;
-    margin-bottom: 10px;
-}
-
-.success-message {
-    color: #2ecc71;
-    font-size: 1rem;
-    margin-bottom: 10px;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 /* Form container */
 .collaboration-form {
-    background: rgba(0, 0, 0, 0.85); /* Dark background for the form */
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
     width: 100%;
-    max-width: 500px; /* Limit form width */
-    text-align: center;
+    max-width: 400px; /* Constrain form size for better layout */
+    background: rgba(0, 0, 0, 0.8); /* Dark background for the form */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* Form shadow */
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between inputs */
+    gap: 15px; /* Spacing between elements */
+    box-sizing: border-box;
 }
 
 /* Input fields */
 .collaboration-input,
 .collaboration-textarea {
     width: 100%;
-    padding: 15px;
+    padding: 10px;
     border: 1px solid #66c0f4;
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.9); /* Slightly transparent */
     color: white;
     font-size: 1rem;
     font-family: 'Poppins', sans-serif;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .collaboration-input:focus,
 .collaboration-textarea:focus {
-    border-color: #00acc1; /* Focus color */
+    border-color: #00acc1;
+    background: rgba(0, 0, 0, 0.85);
 }
 
 /* Textarea styling */
 .collaboration-textarea {
-    height: 120px;
-    resize: none;
+    height: 100px;
+    resize: none; /* Prevent resizing */
 }
 
-/* Button */
+/* Submit button */
 .action-button {
     background: linear-gradient(90deg, #66c0f4, #00acc1);
     color: white;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     border: none;
-    padding: 15px;
+    padding: 12px;
     border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s, background 0.3s ease;
+    transition: transform 0.2s ease, background 0.3s ease;
 }
 
 .action-button:hover {
     background: linear-gradient(90deg, #00acc1, #3498db);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
-/* Reset body and html styles */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
+/* Error and success messages */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.success-message {
+    color: #2ecc71;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .collaboration-form {
+        padding: 15px;
+    }
+
+    .collaborations-title {
+        font-size: 2rem;
+    }
+
+    .action-button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
 }

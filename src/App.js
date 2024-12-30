@@ -20,6 +20,7 @@ import CreateCollaborationPage from './components/CreateCollaborationPage';
 import EditProfile from './components/EditProfile';
 import ManageCollaborations from './components/MangeCollaborations';
 import CreatorsPage from './components/CreatorsPage';
+import EditCollaborationPage from './components/EditCollaborationPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -202,6 +203,13 @@ function App() {
             )
           }
         />
+
+        <Route
+          path="/edit-collaboration/:id"
+          element={<EditCollaborationPage token={token} />}
+        />
+
+
         <Route path="/creators" element={<CreatorsPage token={token} />} />
       </Routes>
     </div>

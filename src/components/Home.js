@@ -16,6 +16,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log('[DEBUG] Popular Collaborations:', response.data);
         setPopularCollaborations(response.data);
       } catch (error) {
         console.error('Failed to fetch popular collaborations:', error.response?.data || error.message);
@@ -75,19 +76,40 @@ function Home({ isLoggedIn, handleLogout, token }) {
           <div className="popular-collaborations">
             <h2 className="section-title">Popular Collaborations</h2>
             <div className="collaborations-grid">
-              {popularCollaborations.map((collab) => (
-                <div className="collaboration-card" key={collab.id}>
-                  <h3 className="collaboration-name">{collab.name}</h3>
-                  <p>{collab.description}</p>
-                  <button className="info-button">Info</button>
-                  <button
-                    className="request-button"
-                    onClick={() => handleRequestToJoin(collab.id)}
-                  >
-                    Request to Join
-                  </button>
-                </div>
-              ))}
+              {popularCollaborations.map((collab) => {
+                console.log('[DEBUG] Popular Collaboration:', collab);
+                const profilePictureUrl = collab.profile_picture
+                  ? `http://127.0.0.1:5000/${collab.profile_picture}` // Prepend base URL
+                  : null;
+
+                return (
+                  <div className="collaboration-card" key={collab.id}>
+                    {/* Conditionally render the profile picture if it exists */}
+                    {profilePictureUrl && (
+                      <img
+                        src={profilePictureUrl}
+                        alt={`${collab.name} Profile`}
+                        className="collaboration-image"
+                        onError={(e) => {
+                          console.error(
+                            `[ERROR] Failed to load profile picture for Collaboration ID: ${collab.id}, URL: ${profilePictureUrl}`
+                          );
+                          e.target.style.display = 'none'; // Hide broken images
+                        }}
+                      />
+                    )}
+                    <h3 className="collaboration-name">{collab.name}</h3>
+                    <p>{collab.description}</p>
+                    <button className="info-button">Info</button>
+                    <button
+                      className="request-button"
+                      onClick={() => handleRequestToJoin(collab.id)}
+                    >
+                      Request to Join
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

@@ -31,16 +31,32 @@ function JoinedCollaborationsPage({ token }) {
       {collaborations.length === 0 ? (
         <p className="empty-message">No collaborations to display.</p>
       ) : (
-        <div className="collaborations-grid"> {/* Changed to collaborations-grid */}
+        <div className="collaborations-grid">
           {collaborations.map((collab) => (
             <div className="collaboration-card" key={collab.id}>
+              {/* Display profile picture if it exists */}
+              {collab.profile_picture && (
+                <img
+                  src={`http://127.0.0.1:5000/${collab.profile_picture}`}
+                  alt={`${collab.name} Profile`}
+                  className="collaboration-image"
+                />
+              )}
               <h2 className="collaboration-name">{collab.name}</h2>
               <p className="collaboration-description">{collab.description}</p>
-              <p className="collaboration-role">Role: {collab.role}</p> {/* Display role */}
+              <p className="collaboration-role">Role: {collab.role}</p>
+              {collab.role === 'admin' && (
+                <button
+                  className="edit-button"
+                  onClick={() => navigate(`/edit-collaboration/${collab.id}`)}
+                >
+                  Edit
+                </button>
+              )}
               <button
                 className="start-matching-button"
                 onClick={() =>
-                  navigate(`/match?collaboration_id=${collab.id}`) // Pass collaboration_id as a query parameter
+                  navigate(`/match?collaboration_id=${collab.id}`)
                 }
               >
                 Start Matching
