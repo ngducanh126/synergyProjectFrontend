@@ -18,6 +18,8 @@ import ApproveCollabRequestsPage from './components/ApproveCollabRequestsPage';
 import JoinedCollaborationsPage from './components/JoinedCollaborationsPage';
 import CreateCollaborationPage from './components/CreateCollaborationPage';
 import EditProfile from './components/EditProfile';
+import ManageCollaborations from './components/MangeCollaborations';
+import CreatorsPage from './components/CreatorsPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -58,6 +60,11 @@ function App() {
         <Route path="/approve-collab-requests" element={isLoggedIn ? <ApproveCollabRequestsPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/joined-collaborations" element={isLoggedIn ? <JoinedCollaborationsPage token={token} /> : <div>Please log in first.</div>} />
         <Route path="/create-collaboration" element={isLoggedIn ? <CreateCollaborationPage token={token} /> : <div>Please log in first.</div>} />
+        <Route
+          path="/manage-collaborations"
+          element={isLoggedIn ? <ManageCollaborations /> : <div>Please log in first.</div>}
+        />
+        <Route path="/creators" element={<CreatorsPage token={token} />} />
       </Routes>
     </div>
   );
