@@ -8,12 +8,14 @@ function Match({ token }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState([]);
+  const [collaborations, setCollaborations] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
   const collaborationId = queryParams.get('collaboration_id');
 
+  // Fetch profiles
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
@@ -34,6 +36,7 @@ function Match({ token }) {
     fetchProfiles();
   }, [token, collaborationId]);
 
+  // Fetch collections for the current profile
   useEffect(() => {
     const fetchCollections = async () => {
       if (profiles.length > 0 && profiles[currentIndex]) {
@@ -55,6 +58,30 @@ function Match({ token }) {
     };
 
     fetchCollections();
+  }, [profiles, currentIndex, token]);
+
+  // Fetch collaborations for the current profile
+  useEffect(() => {
+    const fetchCollaborations = async () => {
+      if (profiles.length > 0 && profiles[currentIndex]) {
+        try {
+          const response = await axios.get(
+            `http://127.0.0.1:5000/match/get_user_collaborations/${profiles[currentIndex].id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setCollaborations(response.data.collaborations || []);
+        } catch (error) {
+          console.error('Failed to load collaborations:', error.response?.data?.message || error.message);
+          setCollaborations([]);
+        }
+      }
+    };
+
+    fetchCollaborations();
   }, [profiles, currentIndex, token]);
 
   const handleSwipeRight = async (userId) => {
@@ -114,46 +141,61 @@ function Match({ token }) {
             <div className="profile-placeholder">No Picture</div>
           )}
           <h2 className="profile-username">{currentProfile.username}</h2>
-          {currentProfile.bio && <p className="profile-info">{currentProfile.bio}</p>}
-          {currentProfile.skills?.length > 0 && (
-            <p className="profile-info">Skills: {currentProfile.skills.join(', ')}</p>
-          )}
-          {currentProfile.location && (
-            <p className="profile-info">Location: {currentProfile.location}</p>
-          )}
-          {collections.length > 0 ? (
-            <div className="collections">
-              <h2 className="collections-title">Collections:</h2>
-              <div className="collection-grid">
-                {collections.map((collection) => (
-                  <div className="collection-card" key={collection.id}>
-                    <h3 className="collection-name">{collection.name}</h3>
-                    <button
-                      className="view-collection-button"
-                      onClick={() =>
-                        navigate(`/collectioninfo/${collection.id}`, {
-                          state: { currentIndex },
-                        })
-                      }
-                    >
-                      View Collection
-                    </button>
-                  </div>
-                ))}
-              </div>
+          <p className="profile-info">Bio: {currentProfile.bio || 'N/A'}</p>
+          <p className="profile-info">Location: {currentProfile.location || 'N/A'}</p>
+          <p className="profile-info">Availability: {currentProfile.availability || 'N/A'}</p>
+
+          <div className="profile-details">
+            <div className="skills-section">
+              <h3>SkillSet</h3>
+              <ul>
+                {currentProfile.skills?.length > 0
+                  ? currentProfile.skills.map((skill, index) => <li key={index}>{skill}</li>)
+                  : 'N/A'}
+              </ul>
             </div>
-          ) : (
-            <p>No collections available for this user.</p>
-          )}
-          <button className="swipe-button" onClick={handleSwipeLeft}>
-            Swipe Left
-          </button>
-          <button
-            className="swipe-button"
-            onClick={() => handleSwipeRight(currentProfile.id)}
-          >
-            Swipe Right
-          </button>
+            <div className="collaborations-section">
+              <h3>Collaborations</h3>
+              <ul>
+                {collaborations.length > 0
+                  ? collaborations.map((collab) => <li key={collab.id}>{collab.name}</li>)
+                  : 'N/A'}
+              </ul>
+            </div>
+          </div>
+
+          <div className="portfolio-section">
+            <h2>Portfolio</h2>
+            <div className="portfolio-grid">
+              {collections.map((collection) => (
+                <div className="collection-card" key={collection.id}>
+                  <h3 className="collection-name">{collection.name}</h3>
+                  <button
+                    className="view-collection-button"
+                    onClick={() =>
+                      navigate(`/collectioninfo/${collection.id}`, {
+                        state: { currentIndex },
+                      })
+                    }
+                  >
+                    View Collection
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="swipe-buttons">
+            <button className="swipe-button" onClick={handleSwipeLeft}>
+              Swipe Left
+            </button>
+            <button
+              className="swipe-button"
+              onClick={() => handleSwipeRight(currentProfile.id)}
+            >
+              Swipe Right
+            </button>
+          </div>
         </div>
       )}
     </div>
