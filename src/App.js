@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar'; // Import Navbar
+import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -24,6 +24,7 @@ import CreatorsPage from './components/CreatorsPage';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
@@ -31,6 +32,7 @@ function App() {
       setToken(storedToken);
       setIsLoggedIn(true);
     }
+    setLoading(false); // Done loading token from localStorage
   }, []);
 
   const handleLogout = () => {
@@ -39,30 +41,166 @@ function App() {
     setIsLoggedIn(false);
   };
 
+  if (loading) {
+    // Display a loading spinner or message while token is being checked
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
-      <Navbar /> {/* Navbar included here */}
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Home isLoggedIn={isLoggedIn} handleLogout={handleLogout} />} />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} />} />
+        <Route
+          path="/"
+          element={
+            <Home isLoggedIn={isLoggedIn} handleLogout={handleLogout} token={token} />
+          }
+        />
+        <Route
+          path="/login"
+          element={<Login setIsLoggedIn={setIsLoggedIn} setToken={setToken} />}
+        />
         <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={isLoggedIn ? <Profile token={token} /> : <div>Please log in first.</div>} />
+        <Route
+          path="/profile"
+          element={
+            isLoggedIn ? (
+              <Profile token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
         <Route path="/profile/edit" element={<EditProfile token={token} />} />
-        <Route path="/match" element={isLoggedIn ? <Match token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/my-matches" element={isLoggedIn ? <MyMatches token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/chat/:receiverId" element={isLoggedIn ? <ChatPage token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/collections/:collectionId" element={isLoggedIn ? <CollectionPage token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/collectioninfo/:collectionId" element={isLoggedIn ? <CollectionInfo token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/collaborations" element={isLoggedIn ? <CollaborationsPage token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/collaborations/:collaborationId" element={isLoggedIn ? <CollaborationDetailsPage token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/my-collaborations" element={isLoggedIn ? <MyOwnCollaborationsPage token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/my-collab-requests" element={isLoggedIn ? <MyCollabRequestsPage token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/approve-collab-requests" element={isLoggedIn ? <ApproveCollabRequestsPage token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/joined-collaborations" element={isLoggedIn ? <JoinedCollaborationsPage token={token} /> : <div>Please log in first.</div>} />
-        <Route path="/create-collaboration" element={isLoggedIn ? <CreateCollaborationPage token={token} /> : <div>Please log in first.</div>} />
+        <Route
+          path="/match"
+          element={
+            isLoggedIn ? (
+              <Match token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/my-matches"
+          element={
+            isLoggedIn ? (
+              <MyMatches token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/chat/:receiverId"
+          element={
+            isLoggedIn ? (
+              <ChatPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/collections/:collectionId"
+          element={
+            isLoggedIn ? (
+              <CollectionPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/collectioninfo/:collectionId"
+          element={
+            isLoggedIn ? (
+              <CollectionInfo token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/collaborations"
+          element={
+            isLoggedIn ? (
+              <CollaborationsPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/collaborations/:collaborationId"
+          element={
+            isLoggedIn ? (
+              <CollaborationDetailsPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/my-collaborations"
+          element={
+            isLoggedIn ? (
+              <MyOwnCollaborationsPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/my-collab-requests"
+          element={
+            isLoggedIn ? (
+              <MyCollabRequestsPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/approve-collab-requests"
+          element={
+            isLoggedIn ? (
+              <ApproveCollabRequestsPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/joined-collaborations"
+          element={
+            isLoggedIn ? (
+              <JoinedCollaborationsPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
+        <Route
+          path="/create-collaboration"
+          element={
+            isLoggedIn ? (
+              <CreateCollaborationPage token={token} />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
+        />
         <Route
           path="/manage-collaborations"
-          element={isLoggedIn ? <ManageCollaborations /> : <div>Please log in first.</div>}
+          element={
+            isLoggedIn ? (
+              <ManageCollaborations />
+            ) : (
+              <div>Please log in first.</div>
+            )
+          }
         />
         <Route path="/creators" element={<CreatorsPage token={token} />} />
       </Routes>
