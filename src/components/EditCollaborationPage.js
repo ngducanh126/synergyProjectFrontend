@@ -8,6 +8,7 @@ function EditCollaborationPage({ token }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
+  const [members, setMembers] = useState([]);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
@@ -29,7 +30,21 @@ function EditCollaborationPage({ token }) {
       }
     };
 
+    const fetchMembers = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:5000/collaboration/${id}/members`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setMembers(response.data.members);
+      } catch (err) {
+        console.error('Error fetching members:', err);
+      }
+    };
+
     fetchCollaborationDetails();
+    fetchMembers();
   }, [id, token]);
 
   const handleSubmit = async (e) => {
@@ -106,6 +121,18 @@ function EditCollaborationPage({ token }) {
           Save Changes
         </button>
       </form>
+
+      <h2 className="members-title">Members</h2>
+      <div className="creators-grid">
+        {members.map((member) => (
+          <div key={member.id} className="creator-card">
+            <h3 className="creator-username">{member.username}</h3>
+            <p className="creator-bio">{member.bio || 'No bio provided.'}</p>
+            <p className="creator-location">Location: {member.location || 'N/A'}</p>
+            {member.skills && <p className="creator-skills">Skills: {member.skills}</p>}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
