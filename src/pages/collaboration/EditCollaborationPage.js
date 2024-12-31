@@ -21,15 +21,14 @@ function EditCollaborationPage({ token }) {
             Authorization: `Bearer ${token}`,
           },
         });
-        const { name, description, profile_picture } = response.data;
+        const { name, description } = response.data;
         setName(name || '');
         setDescription(description || '');
-        setProfilePicture(profile_picture || null);
       } catch (err) {
         setError('Failed to fetch collaboration details.');
       }
     };
-
+  
     const fetchMembers = async () => {
       try {
         const response = await axios.get(`http://127.0.0.1:5000/collaboration/${id}/members`, {
@@ -42,10 +41,11 @@ function EditCollaborationPage({ token }) {
         console.error('Error fetching members:', err);
       }
     };
-
+  
     fetchCollaborationDetails();
     fetchMembers();
   }, [id, token]);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ function EditCollaborationPage({ token }) {
         },
       });
       setSuccessMessage('Collaboration updated successfully!');
-      setTimeout(() => navigate('/collaborations'), 2000);
+      // setTimeout(() => navigate('/collaborations'), 2000);
     } catch (err) {
       setError('Failed to update collaboration.');
     }
