@@ -12,7 +12,7 @@ function ApproveCollabRequestsPage({ token }) {
       console.log('[DEBUG] Fetching admin collaboration requests...');
       try {
         const response = await axios.get(
-          'http://127.0.0.1:5000/collaboration/admin-requests',
+          'http://127.0.0.1:5000/collaboration/view-requests-sent-to-me',
           {
             headers: {
               Authorization: `Bearer ${token}`,
