@@ -5,25 +5,62 @@ import './CreatorsPage.css';
 
 function CreatorsPage({ token }) {
   const [creators, setCreators] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCreators = async () => {
+    const fetchCreatorsAndMatches = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/profile/get_others', {
+        // Fetch creators
+        const creatorsResponse = await axios.get('http://127.0.0.1:5000/profile/get_others', {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
-        setCreators(response.data);
+
+        // Fetch matches
+        const matchesResponse = await axios.get('http://127.0.0.1:5000/match/matches', {
+          headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
+        });
+        const matchedUserIds = matchesResponse.data.map((match) => match.id);
+        setMatches(matchedUserIds);
+
+        // Fetch "already swiped right" status for each creator
+        const creatorsWithSwipeStatus = await Promise.all(
+          creatorsResponse.data.map(async (creator) => {
+            const userResponse = await axios.get(`http://127.0.0.1:5000/match/get_user/${creator.id}`, {
+              headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
+            });
+            return { ...creator, alreadySwipedRight: userResponse.data.already_swiped_right };
+          })
+        );
+
+        setCreators(creatorsWithSwipeStatus);
       } catch (error) {
-        console.error('Error fetching creators:', error);
+        console.error('Error fetching creators or matches:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCreators();
+    fetchCreatorsAndMatches();
   }, [token]);
+
+  const handleSwipeRight = async (userId) => {
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:5000/match/swipe_right/${userId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
+        }
+      );
+      alert(response.data.message);
+      window.location.reload(); // Refresh the page to update the list
+    } catch (error) {
+      console.error('Error swiping right:', error.response?.data || error.message);
+      alert('Failed to swipe right. Please try again.');
+    }
+  };
 
   if (loading) {
     return <div className="loading-message">Loading creators...</div>;
@@ -51,6 +88,18 @@ function CreatorsPage({ token }) {
             <h3 className="creator-username">{creator.username}</h3>
             <p className="creator-bio">{creator.bio || 'No bio provided.'}</p>
             <p className="creator-location">Location: {creator.location || 'N/A'}</p>
+            {matches.includes(creator.id) ? (
+              <div className="matched-indicator">Already Matched</div>
+            ) : creator.alreadySwipedRight ? (
+              <div className="swiped-indicator">Already Swiped Right</div>
+            ) : (
+              <button
+                className="swipe-right-button"
+                onClick={() => handleSwipeRight(creator.id)}
+              >
+                Swipe Right
+              </button>
+            )}
             <button
               className="view-button"
               onClick={() => navigate(`/creator-info/${creator.id}`)}

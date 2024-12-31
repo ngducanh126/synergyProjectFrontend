@@ -7,6 +7,8 @@ function CreatorInfo({ token }) {
   const { id } = useParams();
   const [creator, setCreator] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isMatched, setIsMatched] = useState(false);
+  const [alreadySwiped, setAlreadySwiped] = useState(false);
 
   useEffect(() => {
     const fetchCreatorInfo = async () => {
@@ -15,6 +17,18 @@ function CreatorInfo({ token }) {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setCreator(response.data);
+
+        // Check if the current user is matched with this creator
+        const matchesResponse = await axios.get('http://127.0.0.1:5000/match/matches', {
+          headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
+        });
+        const matchedUserIds = matchesResponse.data.map((match) => match.id);
+        setIsMatched(matchedUserIds.includes(Number(id)));
+
+        // Check if the current user has already swiped right on this creator
+        if (response.data.already_swiped_right) {
+          setAlreadySwiped(true);
+        }
       } catch (error) {
         console.error('Error fetching creator info:', error.response?.data || error.message);
       } finally {
@@ -24,6 +38,18 @@ function CreatorInfo({ token }) {
 
     fetchCreatorInfo();
   }, [id, token]);
+
+  const handleSwipeRight = async () => {
+    try {
+      await axios.post(`http://127.0.0.1:5000/match/swipe_right/${id}`, null, {
+        headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
+      });
+      alert('You swiped right!');
+      window.location.reload(); // Refresh the page
+    } catch (error) {
+      console.error('Error swiping right:', error.response?.data || error.message);
+    }
+  };
 
   if (loading) {
     return <div className="loading-message">Loading creator info...</div>;
@@ -72,6 +98,15 @@ function CreatorInfo({ token }) {
             </ul>
           </div>
         </div>
+        {isMatched ? (
+          <div className="matched-indicator">You are already matched!</div>
+        ) : alreadySwiped ? (
+          <div className="swiped-indicator">You already swiped right!</div>
+        ) : (
+          <button className="swipe-right-button" onClick={handleSwipeRight}>
+            Swipe Right
+          </button>
+        )}
       </div>
     </div>
   );

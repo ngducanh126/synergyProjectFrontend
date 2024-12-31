@@ -89,3 +89,33 @@
     color: #777;
     margin-top: 20px;
 }
+
+/* Button Styling */
+.swipe-right-button {
+    padding: 10px 15px;
+    background-color: #4caf50; /* Green for swipe right */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.swipe-right-button:hover {
+    background-color: #e63946; /* Darker red on hover */
+    transform: translateY(-3px);
+}
+
+/* Matched Indicator */
+.matched-indicator {
+    padding: 10px;
+    background-color: #66c0f4;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
