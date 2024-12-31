@@ -22,6 +22,7 @@ import ManageCollaborations from './components/MangeCollaborations';
 import CreatorsPage from './components/CreatorsPage';
 import EditCollaborationPage from './components/EditCollaborationPage';
 import CreatorInfo from './components/CreatorInfo';
+import Likes from './components/Likes';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -213,6 +214,8 @@ function App() {
 
         <Route path="/creators" element={<CreatorsPage token={token} />} />
         <Route path="/creator-info/:id" element={<CreatorInfo token={token} />} />
+
+        <Route path="/my-likes" element={<Likes token={token} />} />
       </Routes>
     </div>
   );

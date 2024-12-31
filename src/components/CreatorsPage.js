@@ -11,7 +11,7 @@ function CreatorsPage({ token }) {
   useEffect(() => {
     const fetchCreators = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/match/get_others', {
+        const response = await axios.get('http://127.0.0.1:5000/profile/get_others', {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setCreators(response.data);

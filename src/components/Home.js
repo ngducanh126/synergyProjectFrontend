@@ -126,6 +126,9 @@ function Home({ isLoggedIn, handleLogout, token }) {
             <Link to="/my-matches">
               <button className="bottom-button">Matches</button>
             </Link>
+            <Link to="/my-likes">
+              <button className="bottom-button">Likes</button>
+            </Link>
             <button onClick={handleLogout} className="bottom-button">
               Log Out
             </button>
