@@ -5,12 +5,13 @@ import './Home.css';
 
 function Home({ isLoggedIn, handleLogout, token }) {
   const [popularCollaborations, setPopularCollaborations] = useState([]);
+  const [userCollaborations, setUserCollaborations] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPopularCollaborations = async () => {
       try {
-        if (!token) return; // Wait for token to be passed
+        if (!token) return;
         const response = await axios.get('http://127.0.0.1:5000/collaboration/popular', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -25,7 +26,24 @@ function Home({ isLoggedIn, handleLogout, token }) {
       }
     };
 
-    if (isLoggedIn) fetchPopularCollaborations();
+    const fetchUserCollaborations = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/profile/view', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log('[DEBUG] User Collaborations:', response.data.collaborations);
+        setUserCollaborations(response.data.collaborations);
+      } catch (error) {
+        console.error('Failed to fetch user collaborations:', error.response?.data || error.message);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchPopularCollaborations();
+      fetchUserCollaborations();
+    }
   }, [isLoggedIn, token]);
 
   const handleRequestToJoin = async (collabId) => {
@@ -46,7 +64,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state
+    return <div>Loading...</div>;
   }
 
   return (
@@ -79,12 +97,15 @@ function Home({ isLoggedIn, handleLogout, token }) {
               {popularCollaborations.map((collab) => {
                 console.log('[DEBUG] Popular Collaboration:', collab);
                 const profilePictureUrl = collab.profile_picture
-                  ? `http://127.0.0.1:5000/${collab.profile_picture}` // Prepend base URL
+                  ? `http://127.0.0.1:5000/${collab.profile_picture}`
                   : null;
+
+                // Check if the current user is part of the collaboration
+                const userCollab = userCollaborations.find((userCollab) => userCollab.id === collab.id);
 
                 return (
                   <div className="collaboration-card" key={collab.id}>
-                    {/* Conditionally render the profile picture if it exists */}
+                    {/* Conditionally render the profile picture */}
                     {profilePictureUrl && (
                       <img
                         src={profilePictureUrl}
@@ -94,19 +115,27 @@ function Home({ isLoggedIn, handleLogout, token }) {
                           console.error(
                             `[ERROR] Failed to load profile picture for Collaboration ID: ${collab.id}, URL: ${profilePictureUrl}`
                           );
-                          e.target.style.display = 'none'; // Hide broken images
+                          e.target.style.display = 'none';
                         }}
                       />
                     )}
                     <h3 className="collaboration-name">{collab.name}</h3>
                     <p>{collab.description}</p>
                     <button className="info-button">Info</button>
-                    <button
-                      className="request-button"
-                      onClick={() => handleRequestToJoin(collab.id)}
-                    >
-                      Request to Join
-                    </button>
+                    {userCollab ? (
+                      userCollab.role === 'admin' ? (
+                        <p className="admin-label">You are the admin</p>
+                      ) : (
+                        <p className="member-label">You are a member</p>
+                      )
+                    ) : (
+                      <button
+                        className="request-button"
+                        onClick={() => handleRequestToJoin(collab.id)}
+                      >
+                        Request to Join
+                      </button>
+                    )}
                   </div>
                 );
               })}

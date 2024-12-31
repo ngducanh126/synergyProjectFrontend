@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CollaborationPages.css'; // Import shared CSS
 
@@ -6,6 +7,8 @@ function CollaborationsPage({ token }) {
   const [collaborations, setCollaborations] = useState([]);
   const [error, setError] = useState('');
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [userCollaborations, setUserCollaborations] = useState([]); // Tracks collaborations user is part of with roles
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCollaborations = async () => {
@@ -24,22 +27,28 @@ function CollaborationsPage({ token }) {
       }
     };
 
-    const fetchCurrentUserId = async () => {
+    const fetchCurrentUserProfile = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/auth/me', {
+        const response = await axios.get('http://127.0.0.1:5000/profile/view', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log('[DEBUG] Current User ID:', response.data.id);
+        console.log('[DEBUG] Current User Profile:', response.data);
         setCurrentUserId(response.data.id);
+        setUserCollaborations(
+          response.data.collaborations.map((collab) => ({
+            id: collab.id,
+            role: collab.role, // Include role information
+          }))
+        );
       } catch (err) {
-        console.error('[ERROR] Failed to fetch current user ID:', err.response?.data || err.message);
+        console.error('[ERROR] Failed to fetch current user profile:', err.response?.data || err.message);
       }
     };
 
     fetchCollaborations();
-    fetchCurrentUserId();
+    fetchCurrentUserProfile();
   }, [token]);
 
   const handleRequestToJoin = async (collabId) => {
@@ -70,6 +79,8 @@ function CollaborationsPage({ token }) {
             ? `http://127.0.0.1:5000/${collab.profile_picture}` // Prepend base URL
             : null;
 
+          const userCollab = userCollaborations.find((userCollab) => userCollab.id === collab.id);
+
           return (
             <div className="collaboration-card" key={collab.id}>
               {/* Conditionally render the profile picture only if it exists */}
@@ -87,9 +98,18 @@ function CollaborationsPage({ token }) {
                 />
               )}
               <h2 className="collaboration-name">{collab.name}</h2>
-              <button className="info-button">Info</button>
-              {currentUserId === collab.admin_id ? (
-                <p className="admin-label">You are the admin</p>
+              <button
+                className="info-button"
+                onClick={() => navigate(`/collaborations/${collab.id}`)}
+              >
+                Info
+              </button>
+              {userCollab ? (
+                userCollab.role === 'admin' ? (
+                  <p className="admin-label">You are the admin</p>
+                ) : (
+                  <p className="member-label">You are a member</p>
+                )
               ) : (
                 <button
                   className="request-button"

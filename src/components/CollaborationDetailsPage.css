@@ -1,0 +1,101 @@
+/* General container */
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background: linear-gradient(180deg, #1c2833, #34495e);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Page title */
+  .page-title {
+    font-size: 2.8rem;
+    margin-bottom: 30px;
+    color: #66c0f4;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #66c0f4;
+    padding-bottom: 10px;
+  }
+  
+  /* Collaboration card */
+  .collaboration-card {
+    background: rgba(0, 0, 0, 0.85);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    max-width: 600px;
+    width: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .collaboration-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  }
+  
+  /* Collaboration image */
+  .collaboration-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Profile placeholder */
+  .profile-placeholder {
+    width: 100%;
+    height: 250px;
+    background: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Collaboration description */
+  .collaboration-description {
+    font-size: 1.2rem;
+    color: #ddd;
+    margin-bottom: 15px;
+    font-weight: 400;
+  }
+  
+  /* Admin label */
+  .admin-label {
+    font-size: 1.2rem;
+    color: #f1c40f;
+    font-weight: 600;
+  }
+  
+  /* Request to join button */
+  .request-button {
+    background-color: #66c0f4;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .request-button:hover {
+    background-color: #00acc1;
+    transform: translateY(-2px);
+  }
+  
