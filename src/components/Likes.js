@@ -25,6 +25,23 @@ function Likes({ token }) {
     fetchLikedUsers();
   }, [token]);
 
+  const handleSwipeRight = async (userId) => {
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:5000/match/swipe_right/${userId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
+        }
+      );
+      alert(response.data.message);
+      window.location.reload(); // Refresh the page after a successful swipe
+    } catch (error) {
+      console.error('Error swiping right:', error.response?.data || error.message);
+      alert('Failed to swipe right. Please try again.');
+    }
+  };
+
   if (loading) {
     return <div className="loading-message">Loading liked users...</div>;
   }
@@ -51,12 +68,20 @@ function Likes({ token }) {
             <h3 className="liked-username">{user.username}</h3>
             <p className="liked-bio">{user.bio || 'No bio provided.'}</p>
             <p className="liked-location">Location: {user.location || 'N/A'}</p>
-            <button
-              className="view-button"
-              onClick={() => navigate(`/creator-info/${user.id}`)}
-            >
-              View
-            </button>
+            <div className="button-container">
+              <button
+                className="view-button"
+                onClick={() => navigate(`/creator-info/${user.id}`)}
+              >
+                View
+              </button>
+              <button
+                className="swipe-right-button"
+                onClick={() => handleSwipeRight(user.id)}
+              >
+                Swipe Right
+              </button>
+            </div>
           </div>
         ))}
       </div>

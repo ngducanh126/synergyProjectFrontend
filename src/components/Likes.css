@@ -99,3 +99,27 @@
     transform: translateY(-3px);
   }
   
+  /* Swipe Right button styling */
+.swipe-right-button {
+    padding: 10px 15px;
+    background-color: #28a745; /* Green color */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+}
+
+.swipe-right-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-3px); /* Subtle hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Add shadow on hover */
+}
+
+.swipe-right-button:active {
+    background-color: #1e7e34; /* Even darker green on click */
+    transform: translateY(1px); /* Button depress effect */
+}
