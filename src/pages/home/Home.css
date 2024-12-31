@@ -17,7 +17,7 @@
 
 /* Logo styling */
 .logo {
-    background: url('../assets/images/logo.png') no-repeat center center;
+    background: url('../../assets/images/logo.png') no-repeat center center;
     background-size: contain;
     height: 120px;
     width: 120px;
