@@ -102,7 +102,11 @@ function CreatorsPage({ token }) {
             )}
             <button
               className="view-button"
-              onClick={() => navigate(`/creator-info/${creator.id}`)}
+              onClick={() =>
+                navigate(`/creator-info/${creator.id}`, {
+                  state: { matches, alreadySwiped: creator.alreadySwipedRight },
+                })
+              }
             >
               View
             </button>

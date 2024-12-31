@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './CreatorInfo.css';
 
 function CreatorInfo({ token }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [creator, setCreator] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMatched, setIsMatched] = useState(false);
   const [alreadySwiped, setAlreadySwiped] = useState(false);
+  const [collections, setCollections] = useState([]);
 
   useEffect(() => {
     const fetchCreatorInfo = async () => {
@@ -29,6 +31,12 @@ function CreatorInfo({ token }) {
         if (response.data.already_swiped_right) {
           setAlreadySwiped(true);
         }
+
+        // Fetch collections for the creator
+        const collectionsResponse = await axios.get(`http://127.0.0.1:5000/profile/${id}/collections`, {
+          headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
+        });
+        setCollections(collectionsResponse.data);
       } catch (error) {
         console.error('Error fetching creator info:', error.response?.data || error.message);
       } finally {
@@ -87,17 +95,29 @@ function CreatorInfo({ token }) {
               )}
             </ul>
           </div>
-          <div className="collaborations-section">
-            <h3>Collaborations</h3>
-            <ul>
-              {creator.collaborations?.length > 0
-                ? creator.collaborations.map((collab) => (
-                    <li key={collab.id}>{collab.name}</li>
-                  ))
-                : <p>N/A</p>}
-            </ul>
+        </div>
+
+        <div className="portfolio-section">
+          <h2>Portfolio</h2>
+          <div className="portfolio-grid">
+            {collections.map((collection, index) => (
+              <div className="collection-card" key={collection.id}>
+                <h3 className="collection-name">{collection.name}</h3>
+                <button
+                  className="view-collection-button"
+                  onClick={() =>
+                    navigate(`/collectioninfo/${collection.id}`, {
+                      state: { currentIndex: index },
+                    })
+                  }
+                >
+                  View Collection
+                </button>
+              </div>
+            ))}
           </div>
         </div>
+
         {isMatched ? (
           <div className="matched-indicator">You are already matched!</div>
         ) : alreadySwiped ? (

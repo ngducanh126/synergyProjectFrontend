@@ -9,7 +9,7 @@ function CollectionInfo({ token }) {
   const { collectionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentIndex } = location.state;
+  const { currentIndex = 0 } = location.state || {}; // Provide a default value
 
   useEffect(() => {
     const fetchCollectionItems = async () => {
