@@ -13,7 +13,7 @@ function ChatPage({ token }) {
   const room = `room-${Math.min(receiverId, getSenderIdFromToken(token))}-${Math.max(receiverId, getSenderIdFromToken(token))}`;
 
   useEffect(() => {
-    const newSocket = io('http://127.0.0.1:5000', {
+    const newSocket = io('https://synergyproject.onrender.com', {
       query: { token },
     });
     setSocket(newSocket);
@@ -34,7 +34,7 @@ function ChatPage({ token }) {
     const fetchChatHistory = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/chat/history/${receiverId}`,
+          `https://synergyproject.onrender.com/chat/history/${receiverId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

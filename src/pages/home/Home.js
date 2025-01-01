@@ -12,7 +12,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
     const fetchPopularCollaborations = async () => {
       try {
         if (!token) return;
-        const response = await axios.get('http://127.0.0.1:5000/collaboration/popular', {
+        const response = await axios.get('https://synergyproject.onrender.com/collaboration/popular', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -28,7 +28,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
 
     const fetchUserCollaborations = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/profile/view', {
+        const response = await axios.get('https://synergyproject.onrender.com/profile/view', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -49,7 +49,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
   const handleRequestToJoin = async (collabId) => {
     try {
       await axios.post(
-        `http://127.0.0.1:5000/collaboration/${collabId}/request`,
+        `https://synergyproject.onrender.com/collaboration/${collabId}/request`,
         {},
         {
           headers: {
@@ -97,7 +97,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
               {popularCollaborations.map((collab) => {
                 console.log('[DEBUG] Popular Collaboration:', collab);
                 const profilePictureUrl = collab.profile_picture
-                  ? `http://127.0.0.1:5000/${collab.profile_picture}`
+                  ? `https://synergyproject.onrender.com/${collab.profile_picture}`
                   : null;
 
                 // Check if the current user is part of the collaboration

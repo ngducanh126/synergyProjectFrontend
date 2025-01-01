@@ -16,7 +16,7 @@ function EditProfile({ token }) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/profile/view', {
+        const response = await axios.get('https://synergyproject.onrender.com/profile/view', {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         const { bio, skills, location, availability, profile_picture } = response.data;
@@ -45,7 +45,7 @@ function EditProfile({ token }) {
     }
 
     try {
-      await axios.put('http://127.0.0.1:5000/profile/update', formData, {
+      await axios.put('https://synergyproject.onrender.com/profile/update', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -66,7 +66,7 @@ function EditProfile({ token }) {
           <div className="current-profile-picture">
             <h3>Current Profile Picture:</h3>
             <img
-              src={`http://127.0.0.1:5000/${currentProfilePicture}`}
+              src={`https://synergyproject.onrender.com/${currentProfilePicture}`}
               alt="Current Profile"
               className="profile-picture"
             />

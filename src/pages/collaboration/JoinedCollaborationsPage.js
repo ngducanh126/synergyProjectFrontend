@@ -11,7 +11,7 @@ function JoinedCollaborationsPage({ token }) {
   useEffect(() => {
     const fetchCollaborations = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/collaboration/joined', {
+        const response = await axios.get('https://synergyproject.onrender.com/collaboration/joined', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +37,7 @@ function JoinedCollaborationsPage({ token }) {
               {/* Display profile picture if it exists */}
               {collab.profile_picture && (
                 <img
-                  src={`http://127.0.0.1:5000/${collab.profile_picture}`}
+                  src={`https://synergyproject.onrender.com/${collab.profile_picture}`}
                   alt={`${collab.name} Profile`}
                   className="collaboration-image"
                 />

@@ -13,12 +13,12 @@ function CreatorsPage({ token }) {
     const fetchCreatorsAndMatches = async () => {
       try {
         // Fetch creators
-        const creatorsResponse = await axios.get('http://127.0.0.1:5000/profile/get_others', {
+        const creatorsResponse = await axios.get('https://synergyproject.onrender.com/profile/get_others', {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
 
         // Fetch matches
-        const matchesResponse = await axios.get('http://127.0.0.1:5000/match/matches', {
+        const matchesResponse = await axios.get('https://synergyproject.onrender.com/match/matches', {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         const matchedUserIds = matchesResponse.data.map((match) => match.id);
@@ -27,7 +27,7 @@ function CreatorsPage({ token }) {
         // Fetch "already swiped right" status for each creator
         const creatorsWithSwipeStatus = await Promise.all(
           creatorsResponse.data.map(async (creator) => {
-            const userResponse = await axios.get(`http://127.0.0.1:5000/match/get_user/${creator.id}`, {
+            const userResponse = await axios.get(`https://synergyproject.onrender.com/match/get_user/${creator.id}`, {
               headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
             });
             return { ...creator, alreadySwipedRight: userResponse.data.already_swiped_right };
@@ -48,7 +48,7 @@ function CreatorsPage({ token }) {
   const handleSwipeRight = async (userId) => {
     try {
       const response = await axios.post(
-        `http://127.0.0.1:5000/match/swipe_right/${userId}`,
+        `https://synergyproject.onrender.com/match/swipe_right/${userId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
@@ -78,7 +78,7 @@ function CreatorsPage({ token }) {
           <div key={creator.id} className="creator-card">
             {creator.profile_picture ? (
               <img
-                src={`http://127.0.0.1:5000/${creator.profile_picture}`}
+                src={`https://synergyproject.onrender.com/${creator.profile_picture}`}
                 alt={`${creator.username}'s profile`}
                 className="creator-image"
               />

@@ -15,7 +15,7 @@ function CollectionInfo({ token }) {
     const fetchCollectionItems = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/profile/collections/${collectionId}`,
+          `https://synergyproject.onrender.com/profile/collections/${collectionId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

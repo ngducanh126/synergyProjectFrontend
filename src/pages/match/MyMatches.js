@@ -9,7 +9,7 @@ function MyMatches({ token }) {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/match/matches', {
+        const response = await axios.get('https://synergyproject.onrender.com/match/matches', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

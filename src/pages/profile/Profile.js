@@ -15,7 +15,7 @@ function Profile({ token }) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/profile/view', {
+        const response = await axios.get('https://synergyproject.onrender.com/profile/view', {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setProfile(response.data);
@@ -27,7 +27,7 @@ function Profile({ token }) {
 
     const fetchCollections = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/profile/collections', {
+        const response = await axios.get('https://synergyproject.onrender.com/profile/collections', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCollections(response.data);
@@ -50,7 +50,7 @@ function Profile({ token }) {
 
     try {
       const response = await axios.post(
-        'http://127.0.0.1:5000/profile/collections',
+        'https://synergyproject.onrender.com/profile/collections',
         { name: newCollectionName },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -78,7 +78,7 @@ function Profile({ token }) {
         <div className="profile-picture-container">
           {profile.profile_picture ? (
             <img
-              src={`http://127.0.0.1:5000/${profile.profile_picture}`}
+              src={`https://synergyproject.onrender.com/${profile.profile_picture}`}
               alt="Profile"
               className="profile-picture"
             />

@@ -26,7 +26,7 @@ function CreateCollaborationPage({ token }) {
                 formData.append('profile_picture', profilePicture);
             }
 
-            const response = await fetch('http://127.0.0.1:5000/collaboration/create', {
+            const response = await fetch('https://synergyproject.onrender.com/collaboration/create', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,

@@ -15,13 +15,13 @@ function CreatorInfo({ token }) {
   useEffect(() => {
     const fetchCreatorInfo = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/match/get_user/${id}`, {
+        const response = await axios.get(`https://synergyproject.onrender.com/match/get_user/${id}`, {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setCreator(response.data);
 
         // Check if the current user is matched with this creator
-        const matchesResponse = await axios.get('http://127.0.0.1:5000/match/matches', {
+        const matchesResponse = await axios.get('https://synergyproject.onrender.com/match/matches', {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         const matchedUserIds = matchesResponse.data.map((match) => match.id);
@@ -33,7 +33,7 @@ function CreatorInfo({ token }) {
         }
 
         // Fetch collections for the creator
-        const collectionsResponse = await axios.get(`http://127.0.0.1:5000/profile/${id}/collections`, {
+        const collectionsResponse = await axios.get(`https://synergyproject.onrender.com/profile/${id}/collections`, {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setCollections(collectionsResponse.data);
@@ -49,7 +49,7 @@ function CreatorInfo({ token }) {
 
   const handleSwipeRight = async () => {
     try {
-      await axios.post(`http://127.0.0.1:5000/match/swipe_right/${id}`, null, {
+      await axios.post(`https://synergyproject.onrender.com/match/swipe_right/${id}`, null, {
         headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
       });
       alert('You swiped right!');
@@ -72,7 +72,7 @@ function CreatorInfo({ token }) {
       <div className="profile-card">
         {creator.profile_picture ? (
           <img
-            src={`http://127.0.0.1:5000/${creator.profile_picture}`}
+            src={`https://synergyproject.onrender.com/${creator.profile_picture}`}
             alt={`${creator.username}'s profile`}
             className="profile-picture"
           />

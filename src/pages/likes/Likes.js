@@ -11,7 +11,7 @@ function Likes({ token }) {
   useEffect(() => {
     const fetchLikedUsers = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/match/likes', {
+        const response = await axios.get('https://synergyproject.onrender.com/match/likes', {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setLikedUsers(response.data);
@@ -28,7 +28,7 @@ function Likes({ token }) {
   const handleSwipeRight = async (userId) => {
     try {
       const response = await axios.post(
-        `http://127.0.0.1:5000/match/swipe_right/${userId}`,
+        `https://synergyproject.onrender.com/match/swipe_right/${userId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
@@ -58,7 +58,7 @@ function Likes({ token }) {
           <div key={user.id} className="liked-card">
             {user.profile_picture ? (
               <img
-                src={`http://127.0.0.1:5000/${user.profile_picture}`}
+                src={`https://synergyproject.onrender.com/${user.profile_picture}`}
                 alt={`${user.username}'s profile`}
                 className="liked-image"
               />

@@ -16,7 +16,7 @@ function EditCollaborationPage({ token }) {
   useEffect(() => {
     const fetchCollaborationDetails = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/collaboration/${id}`, {
+        const response = await axios.get(`https://synergyproject.onrender.com/collaboration/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,7 +31,7 @@ function EditCollaborationPage({ token }) {
   
     const fetchMembers = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/collaboration/${id}/members`, {
+        const response = await axios.get(`https://synergyproject.onrender.com/collaboration/${id}/members`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -65,7 +65,7 @@ function EditCollaborationPage({ token }) {
     }
 
     try {
-      await axios.put(`http://127.0.0.1:5000/collaboration/edit/${id}`, formData, {
+      await axios.put(`https://synergyproject.onrender.com/collaboration/edit/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

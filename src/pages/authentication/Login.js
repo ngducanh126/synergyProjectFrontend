@@ -12,7 +12,7 @@ function Login({ setIsLoggedIn, setToken }) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://127.0.0.1:5000/auth/login',
+        'https://synergyproject.onrender.com/auth/login',
         {
           username,
           password,

@@ -14,7 +14,7 @@ function MyCollectionPage({ token }) {
         console.log(`[DEBUG] Fetching items for Collection ID: ${collectionId}`);
         try {
             const response = await axios.get(
-                `http://127.0.0.1:5000/profile/collections/${collectionId}`,
+                `https://synergyproject.onrender.com/profile/collections/${collectionId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ function MyCollectionPage({ token }) {
         console.log('[DEBUG] Payload:', { type: itemType, content });
   
         response = await axios.post(
-          `http://127.0.0.1:5000/profile/collections/${collectionId}/items`,
+          `https://synergyproject.onrender.com/profile/collections/${collectionId}/items`,
           { type: itemType, content },
           {
             headers: {
@@ -83,7 +83,7 @@ function MyCollectionPage({ token }) {
         console.log(`[DEBUG] type: ${itemType}, content: ${content}, file: ${file.name}`);
   
         response = await axios.post(
-          `http://127.0.0.1:5000/profile/collections/${collectionId}/items`,
+          `https://synergyproject.onrender.com/profile/collections/${collectionId}/items`,
           formData,
           {
             headers: {

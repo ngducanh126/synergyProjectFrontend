@@ -13,7 +13,7 @@ function CollaborationsPage({ token }) {
   useEffect(() => {
     const fetchCollaborations = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/collaboration/view', {
+        const response = await axios.get('https://synergyproject.onrender.com/collaboration/view', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ function CollaborationsPage({ token }) {
 
     const fetchCurrentUserProfile = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/profile/view', {
+        const response = await axios.get('https://synergyproject.onrender.com/profile/view', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,7 +54,7 @@ function CollaborationsPage({ token }) {
   const handleRequestToJoin = async (collabId) => {
     try {
       await axios.post(
-        `http://127.0.0.1:5000/collaboration/${collabId}/request`,
+        `https://synergyproject.onrender.com/collaboration/${collabId}/request`,
         {},
         {
           headers: {
@@ -76,7 +76,7 @@ function CollaborationsPage({ token }) {
         {collaborations.map((collab) => {
           console.log('[DEBUG] Collaboration:', collab);
           const profilePictureUrl = collab.profile_picture
-            ? `http://127.0.0.1:5000/${collab.profile_picture}` // Prepend base URL
+            ? `https://synergyproject.onrender.com/${collab.profile_picture}` // Prepend base URL
             : null;
 
           const userCollab = userCollaborations.find((userCollab) => userCollab.id === collab.id);

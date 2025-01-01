@@ -15,7 +15,7 @@ function CollectionPage({ token }) {
     const fetchItems = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/profile/collections/${collectionId}`,
+          `https://synergyproject.onrender.com/profile/collections/${collectionId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ function CollectionPage({ token }) {
 
     try {
       await axios.post(
-        `http://127.0.0.1:5000/profile/collections/${collectionId}/items`,
+        `https://synergyproject.onrender.com/profile/collections/${collectionId}/items`,
         formData,
         {
           headers: {

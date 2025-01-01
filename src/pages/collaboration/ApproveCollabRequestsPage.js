@@ -12,7 +12,7 @@ function ApproveCollabRequestsPage({ token }) {
       console.log('[DEBUG] Fetching admin collaboration requests...');
       try {
         const response = await axios.get(
-          'http://127.0.0.1:5000/collaboration/view-requests-sent-to-me',
+          'https://synergyproject.onrender.com/collaboration/view-requests-sent-to-me',
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ function ApproveCollabRequestsPage({ token }) {
     console.log(`[DEBUG] Processing request ${requestId} with status: ${status}`);
     try {
       const response = await axios.put(
-        `http://127.0.0.1:5000/collaboration/requests/${requestId}`,
+        `https://synergyproject.onrender.com/collaboration/requests/${requestId}`,
         { status },
         {
           headers: {

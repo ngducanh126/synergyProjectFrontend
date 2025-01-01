@@ -19,7 +19,7 @@ function Match({ token }) {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/match/get_others', {
+        const response = await axios.get('https://synergyproject.onrender.com/match/get_others', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,7 +42,7 @@ function Match({ token }) {
       if (profiles.length > 0 && profiles[currentIndex]) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:5000/profile/${profiles[currentIndex].id}/collections`,
+            `https://synergyproject.onrender.com/profile/${profiles[currentIndex].id}/collections`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -66,7 +66,7 @@ function Match({ token }) {
       if (profiles.length > 0 && profiles[currentIndex]) {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:5000/match/get_user_collaborations/${profiles[currentIndex].id}`,
+            `https://synergyproject.onrender.com/match/get_user_collaborations/${profiles[currentIndex].id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ function Match({ token }) {
   const handleSwipeRight = async (userId) => {
     try {
       const response = await axios.post(
-        `http://127.0.0.1:5000/match/swipe_right/${userId}`,
+        `https://synergyproject.onrender.com/match/swipe_right/${userId}`,
         {},
         {
           headers: {
@@ -133,7 +133,7 @@ function Match({ token }) {
         <div className="profile-card">
           {currentProfile.profile_picture ? (
             <img
-              src={`http://127.0.0.1:5000/${currentProfile.profile_picture}`}
+              src={`https://synergyproject.onrender.com/${currentProfile.profile_picture}`}
               alt={`${currentProfile.username}'s profile`}
               className="profile-picture"
             />
