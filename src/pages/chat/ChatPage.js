@@ -10,11 +10,16 @@ function ChatPage({ token }) {
   const [newMessage, setNewMessage] = useState('');
   const [socket, setSocket] = useState(null);
 
-  const room = `room-${Math.min(receiverId, getSenderIdFromToken(token))}-${Math.max(receiverId, getSenderIdFromToken(token))}`;
+  const room = `room-${Math.min(
+    receiverId,
+    getSenderIdFromToken(token)
+  )}-${Math.max(receiverId, getSenderIdFromToken(token))}`;
 
   useEffect(() => {
     const newSocket = io('https://synergyproject.onrender.com', {
-      query: { token },
+      extraHeaders: {
+        Authorization: `Bearer ${token}`, // Pass the token in headers
+      },
     });
     setSocket(newSocket);
 
@@ -70,7 +75,9 @@ function ChatPage({ token }) {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`chat-message ${msg.sender_id === receiverId ? 'received' : 'sent'}`}
+            className={`chat-message ${
+              msg.sender_id === Number(receiverId) ? 'received' : 'sent'
+            }`}
           >
             <p className="chat-text">{msg.message}</p>
             <small className="chat-timestamp">
@@ -99,5 +106,5 @@ export default ChatPage;
 
 function getSenderIdFromToken(token) {
   const payload = JSON.parse(atob(token.split('.')[1]));
-  return payload.sub;
+  return parseInt(payload.sub, 10); // Ensure sender ID is a number
 }
