@@ -54,7 +54,7 @@ function EditProfile({ token }) {
         },
       });
       alert('Profile updated successfully.');
-      navigate('/profile');
+      // navigate('/profile');
     } catch (error) {
       alert('Failed to update profile.');
     }
