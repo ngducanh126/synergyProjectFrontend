@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import './Login.css'; // Import the CSS file
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
+console.log('url is '+ `${API_BASE_URL}/auth/login`)
 function Login({ setIsLoggedIn, setToken }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

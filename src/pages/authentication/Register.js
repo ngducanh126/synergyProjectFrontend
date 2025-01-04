@@ -6,6 +6,8 @@ import './Login.css'; // Reuse the same CSS file
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function Register() {
+  console.log('Environment API_BASE_URL:', process.env.REACT_APP_API_BASE_URL);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
