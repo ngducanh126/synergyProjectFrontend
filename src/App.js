@@ -23,8 +23,9 @@ import CreatorsPage from './pages/creator/CreatorsPage';
 import EditCollaborationPage from './pages/collaboration/EditCollaborationPage';
 import CreatorInfo from './pages/creator/CreatorInfo';
 import Likes from './pages/likes/Likes';
-
+console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
 function App() {
+  console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState('');
   const [loading, setLoading] = useState(true);

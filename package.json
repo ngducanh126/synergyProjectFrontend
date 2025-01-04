@@ -14,13 +14,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "cross-env echo Building with API Base URL: $REACT_APP_API_BASE_URL && react-scripts build",
+    "build": "react-scripts build",
     "clean": "rimraf build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "build:staging": "env-cmd -f .env.staging react-scripts build",
-    "build:production": "env-cmd -f .env.production react-scripts build"
+    "eject": "react-scripts eject"
   },
+
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -41,6 +40,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "env-cmd": "^10.1.0",
     "rimraf": "^5.0.10"
   }
 }
