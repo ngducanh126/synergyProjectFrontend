@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './MatchPage.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Match({ token }) {
   const [profiles, setProfiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,7 +21,7 @@ function Match({ token }) {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/match/get_others', {
+        const response = await axios.get(`${API_BASE_URL}/match/get_others`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,7 +44,7 @@ function Match({ token }) {
       if (profiles.length > 0 && profiles[currentIndex]) {
         try {
           const response = await axios.get(
-            `https://synergyproject.onrender.com/profile/${profiles[currentIndex].id}/collections`,
+            `${API_BASE_URL}/profile/${profiles[currentIndex].id}/collections`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -66,7 +68,7 @@ function Match({ token }) {
       if (profiles.length > 0 && profiles[currentIndex]) {
         try {
           const response = await axios.get(
-            `https://synergyproject.onrender.com/match/get_user_collaborations/${profiles[currentIndex].id}`,
+            `${API_BASE_URL}/match/get_user_collaborations/${profiles[currentIndex].id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -87,7 +89,7 @@ function Match({ token }) {
   const handleSwipeRight = async (userId) => {
     try {
       const response = await axios.post(
-        `https://synergyproject.onrender.com/match/swipe_right/${userId}`,
+        `${API_BASE_URL}/match/swipe_right/${userId}`,
         {},
         {
           headers: {
@@ -133,7 +135,7 @@ function Match({ token }) {
         <div className="profile-card">
           {currentProfile.profile_picture ? (
             <img
-              src={`https://synergyproject.onrender.com/${currentProfile.profile_picture}`}
+              src={`${API_BASE_URL}/${currentProfile.profile_picture}`}
               alt={`${currentProfile.username}'s profile`}
               className="profile-picture"
             />

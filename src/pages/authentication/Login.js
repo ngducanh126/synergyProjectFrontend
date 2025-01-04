@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css'; // Import the CSS file
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Login({ setIsLoggedIn, setToken }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +14,7 @@ function Login({ setIsLoggedIn, setToken }) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://synergyproject.onrender.com/auth/login',
+        `${API_BASE_URL}/auth/login`, // Use backticks for template literals
         {
           username,
           password,
@@ -23,6 +25,7 @@ function Login({ setIsLoggedIn, setToken }) {
           },
         }
       );
+    
       const token = response.data.access_token;
       setToken(token);
       localStorage.setItem('authToken', token); // Save token to localStorage

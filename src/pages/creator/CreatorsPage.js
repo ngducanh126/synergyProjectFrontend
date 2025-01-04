@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CreatorsPage.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function CreatorsPage({ token }) {
   const [creators, setCreators] = useState([]);
   const [matches, setMatches] = useState([]);
@@ -13,12 +15,12 @@ function CreatorsPage({ token }) {
     const fetchCreatorsAndMatches = async () => {
       try {
         // Fetch creators
-        const creatorsResponse = await axios.get('https://synergyproject.onrender.com/profile/get_others', {
+        const creatorsResponse = await axios.get(`${API_BASE_URL}/profile/get_others`, {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
 
         // Fetch matches
-        const matchesResponse = await axios.get('https://synergyproject.onrender.com/match/matches', {
+        const matchesResponse = await axios.get(`${API_BASE_URL}/match/matches`, {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         const matchedUserIds = matchesResponse.data.map((match) => match.id);
@@ -27,7 +29,7 @@ function CreatorsPage({ token }) {
         // Fetch "already swiped right" status for each creator
         const creatorsWithSwipeStatus = await Promise.all(
           creatorsResponse.data.map(async (creator) => {
-            const userResponse = await axios.get(`https://synergyproject.onrender.com/match/get_user/${creator.id}`, {
+            const userResponse = await axios.get(`${API_BASE_URL}/match/get_user/${creator.id}`, {
               headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
             });
             return { ...creator, alreadySwipedRight: userResponse.data.already_swiped_right };
@@ -48,7 +50,7 @@ function CreatorsPage({ token }) {
   const handleSwipeRight = async (userId) => {
     try {
       const response = await axios.post(
-        `https://synergyproject.onrender.com/match/swipe_right/${userId}`,
+        `${API_BASE_URL}/match/swipe_right/${userId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
@@ -78,7 +80,7 @@ function CreatorsPage({ token }) {
           <div key={creator.id} className="creator-card">
             {creator.profile_picture ? (
               <img
-                src={`https://synergyproject.onrender.com/${creator.profile_picture}`}
+                src={`${API_BASE_URL}/${creator.profile_picture}`}
                 alt={`${creator.username}'s profile`}
                 className="creator-image"
               />

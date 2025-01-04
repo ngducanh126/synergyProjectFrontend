@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function MyCollectionPage({ token }) {
   const { collectionId } = useParams();
   const [items, setItems] = useState([]);
@@ -14,7 +16,7 @@ function MyCollectionPage({ token }) {
         console.log(`[DEBUG] Fetching items for Collection ID: ${collectionId}`);
         try {
             const response = await axios.get(
-                `https://synergyproject.onrender.com/profile/collections/${collectionId}`,
+                `${API_BASE_URL}/profile/collections/${collectionId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -53,7 +55,7 @@ function MyCollectionPage({ token }) {
         console.log('[DEBUG] Payload:', { type: itemType, content });
   
         response = await axios.post(
-          `https://synergyproject.onrender.com/profile/collections/${collectionId}/items`,
+          `${API_BASE_URL}/profile/collections/${collectionId}/items`,
           { type: itemType, content },
           {
             headers: {
@@ -83,7 +85,7 @@ function MyCollectionPage({ token }) {
         console.log(`[DEBUG] type: ${itemType}, content: ${content}, file: ${file.name}`);
   
         response = await axios.post(
-          `https://synergyproject.onrender.com/profile/collections/${collectionId}/items`,
+          `${API_BASE_URL}/profile/collections/${collectionId}/items`,
           formData,
           {
             headers: {

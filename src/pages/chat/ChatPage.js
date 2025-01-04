@@ -4,6 +4,8 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import './ChatPage.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function ChatPage({ token }) {
   const { receiverId } = useParams();
   const [messages, setMessages] = useState([]);
@@ -16,7 +18,7 @@ function ChatPage({ token }) {
   )}-${Math.max(receiverId, getSenderIdFromToken(token))}`;
 
   useEffect(() => {
-    const newSocket = io('https://synergyproject.onrender.com', {
+    const newSocket = io(`${API_BASE_URL}`, {
       extraHeaders: {
         Authorization: `Bearer ${token}`, // Pass the token in headers
       },
@@ -39,7 +41,7 @@ function ChatPage({ token }) {
     const fetchChatHistory = async () => {
       try {
         const response = await axios.get(
-          `https://synergyproject.onrender.com/chat/history/${receiverId}`,
+          `${API_BASE_URL}/chat/history/${receiverId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './CollectionStyles.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function CollectionInfo({ token }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ function CollectionInfo({ token }) {
     const fetchCollectionItems = async () => {
       try {
         const response = await axios.get(
-          `https://synergyproject.onrender.com/profile/collections/${collectionId}`,
+          `${API_BASE_URL}/profile/collections/${collectionId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

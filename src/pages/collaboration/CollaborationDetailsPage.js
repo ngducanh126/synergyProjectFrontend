@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './CollaborationDetailsPage.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function CollaborationDetailsPage({ token }) {
   const { collaborationId } = useParams();
   const [collaboration, setCollaboration] = useState(null);
@@ -13,7 +15,7 @@ function CollaborationDetailsPage({ token }) {
     const fetchCollaborationDetails = async () => {
       try {
         // Fetch collaboration details
-        const response = await axios.get(`https://synergyproject.onrender.com/collaboration/${collaborationId}`, {
+        const response = await axios.get(`${API_BASE_URL}/collaboration/${collaborationId}`, {
           headers: {
             Authorization: `Bearer ${token || localStorage.getItem('authToken')}`,
           },
@@ -21,7 +23,7 @@ function CollaborationDetailsPage({ token }) {
         setCollaboration(response.data);
 
         // Fetch current user ID
-        const currentUserResponse = await axios.get('https://synergyproject.onrender.com/auth/me', {
+        const currentUserResponse = await axios.get(`${API_BASE_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token || localStorage.getItem('authToken')}`,
           },
@@ -43,7 +45,7 @@ function CollaborationDetailsPage({ token }) {
   const handleRequestToJoin = async () => {
     try {
       await axios.post(
-        `https://synergyproject.onrender.com/collaboration/${collaborationId}/request`,
+        `${API_BASE_URL}/collaboration/${collaborationId}/request`,
         {},
         {
           headers: {
@@ -67,7 +69,7 @@ function CollaborationDetailsPage({ token }) {
       <div className="collaboration-card">
         {collaboration.profile_picture ? (
           <img
-            src={`https://synergyproject.onrender.com/${collaboration.profile_picture}`}
+            src={`${API_BASE_URL}/${collaboration.profile_picture}`}
             alt={`${collaboration.name} Profile`}
             className="collaboration-image"
           />

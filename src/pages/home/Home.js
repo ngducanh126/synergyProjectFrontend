@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Home({ isLoggedIn, handleLogout, token }) {
   const [popularCollaborations, setPopularCollaborations] = useState([]);
   const [userCollaborations, setUserCollaborations] = useState([]);
@@ -12,7 +14,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
     const fetchPopularCollaborations = async () => {
       try {
         if (!token) return;
-        const response = await axios.get('https://synergyproject.onrender.com/collaboration/popular', {
+        const response = await axios.get(`${API_BASE_URL}/collaboration/popular`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -28,7 +30,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
 
     const fetchUserCollaborations = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/profile/view', {
+        const response = await axios.get(`${API_BASE_URL}/profile/view`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -49,7 +51,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
   const handleRequestToJoin = async (collabId) => {
     try {
       await axios.post(
-        `https://synergyproject.onrender.com/collaboration/${collabId}/request`,
+        `${API_BASE_URL}/collaboration/${collabId}/request`,
         {},
         {
           headers: {
@@ -97,7 +99,7 @@ function Home({ isLoggedIn, handleLogout, token }) {
               {popularCollaborations.map((collab) => {
                 console.log('[DEBUG] Popular Collaboration:', collab);
                 const profilePictureUrl = collab.profile_picture
-                  ? `https://synergyproject.onrender.com/${collab.profile_picture}`
+                  ? `${API_BASE_URL}/${collab.profile_picture}`
                   : null;
 
                 // Check if the current user is part of the collaboration

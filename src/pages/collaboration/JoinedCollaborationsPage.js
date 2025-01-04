@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CollaborationPages.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function JoinedCollaborationsPage({ token }) {
   const [collaborations, setCollaborations] = useState([]);
   const [error, setError] = useState('');
@@ -11,7 +13,7 @@ function JoinedCollaborationsPage({ token }) {
   useEffect(() => {
     const fetchCollaborations = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/collaboration/joined', {
+        const response = await axios.get(`${API_BASE_URL}/collaboration/joined`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,7 +39,7 @@ function JoinedCollaborationsPage({ token }) {
               {/* Display profile picture if it exists */}
               {collab.profile_picture && (
                 <img
-                  src={`https://synergyproject.onrender.com/${collab.profile_picture}`}
+                  src={`${API_BASE_URL}/${collab.profile_picture}`}
                   alt={`${collab.name} Profile`}
                   className="collaboration-image"
                 />

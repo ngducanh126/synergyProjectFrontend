@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './CollaborationPages.css'; // Import the shared CSS file
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function ApproveCollabRequestsPage({ token }) {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState('');
@@ -12,7 +14,7 @@ function ApproveCollabRequestsPage({ token }) {
       console.log('[DEBUG] Fetching admin collaboration requests...');
       try {
         const response = await axios.get(
-          'https://synergyproject.onrender.com/collaboration/view-requests-sent-to-me',
+          `${API_BASE_URL}/collaboration/view-requests-sent-to-me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -37,7 +39,7 @@ function ApproveCollabRequestsPage({ token }) {
     console.log(`[DEBUG] Processing request ${requestId} with status: ${status}`);
     try {
       const response = await axios.put(
-        `https://synergyproject.onrender.com/collaboration/requests/${requestId}`,
+        `${API_BASE_URL}/collaboration/requests/${requestId}`,
         { status },
         {
           headers: {

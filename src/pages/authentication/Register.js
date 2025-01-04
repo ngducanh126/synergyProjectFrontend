@@ -3,14 +3,21 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './Login.css'; // Reuse the same CSS file
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+
   const handleRegister = async (e) => {
     e.preventDefault();
+    
+    const url = `${API_BASE_URL}/auth/register`;
+    console.log('Making request to:', url); // Log the URL to the console
+    
     try {
-      await axios.post('https://synergyproject.onrender.com/auth/register', {
+      await axios.post(url, {
         username,
         password,
       });
@@ -19,6 +26,7 @@ function Register() {
       alert('Registration failed. Please try again.');
     }
   };
+
 
   return (
     <div className="login-container">

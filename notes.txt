@@ -1,0 +1,2 @@
+local : npm start
+production:  npm run build

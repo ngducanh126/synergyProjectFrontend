@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Profile({ token }) {
   const [profile, setProfile] = useState({});
   const [collections, setCollections] = useState([]);
@@ -15,7 +17,7 @@ function Profile({ token }) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/profile/view', {
+        const response = await axios.get(`${API_BASE_URL}/profile/view`, {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setProfile(response.data);
@@ -27,7 +29,7 @@ function Profile({ token }) {
 
     const fetchCollections = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/profile/collections', {
+        const response = await axios.get(`${API_BASE_URL}/profile/collections`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCollections(response.data);
@@ -50,7 +52,7 @@ function Profile({ token }) {
 
     try {
       const response = await axios.post(
-        'https://synergyproject.onrender.com/profile/collections',
+        `${API_BASE_URL}/profile/collections`,
         { name: newCollectionName },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -78,7 +80,7 @@ function Profile({ token }) {
         <div className="profile-picture-container">
           {profile.profile_picture ? (
             <img
-              src={`https://synergyproject.onrender.com/${profile.profile_picture}`}
+              src={`${API_BASE_URL}/${profile.profile_picture}`}
               alt="Profile"
               className="profile-picture"
             />

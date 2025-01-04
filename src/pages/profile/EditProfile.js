@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './EditProfile.css'; // Add your CSS styling
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function EditProfile({ token }) {
   const [bio, setBio] = useState('');
   const [skills, setSkills] = useState('');
@@ -16,7 +18,7 @@ function EditProfile({ token }) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/profile/view', {
+        const response = await axios.get(`${API_BASE_URL}/profile/view`, {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         const { bio, skills, location, availability, profile_picture } = response.data;
@@ -45,7 +47,7 @@ function EditProfile({ token }) {
     }
 
     try {
-      await axios.put('https://synergyproject.onrender.com/profile/update', formData, {
+      await axios.put(`${API_BASE_URL}/profile/update`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -66,7 +68,7 @@ function EditProfile({ token }) {
           <div className="current-profile-picture">
             <h3>Current Profile Picture:</h3>
             <img
-              src={`https://synergyproject.onrender.com/${currentProfilePicture}`}
+              src={`${API_BASE_URL}/${currentProfilePicture}`}
               alt="Current Profile"
               className="profile-picture"
             />

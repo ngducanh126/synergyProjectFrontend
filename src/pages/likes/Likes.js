@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Likes.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function Likes({ token }) {
   const [likedUsers, setLikedUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +13,7 @@ function Likes({ token }) {
   useEffect(() => {
     const fetchLikedUsers = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/match/likes', {
+        const response = await axios.get(`${API_BASE_URL}/match/likes`, {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
         });
         setLikedUsers(response.data);
@@ -28,7 +30,7 @@ function Likes({ token }) {
   const handleSwipeRight = async (userId) => {
     try {
       const response = await axios.post(
-        `https://synergyproject.onrender.com/match/swipe_right/${userId}`,
+        `${API_BASE_URL}/match/swipe_right/${userId}`,
         {},
         {
           headers: { Authorization: `Bearer ${token || localStorage.getItem('authToken')}` },
@@ -58,7 +60,7 @@ function Likes({ token }) {
           <div key={user.id} className="liked-card">
             {user.profile_picture ? (
               <img
-                src={`https://synergyproject.onrender.com/${user.profile_picture}`}
+                src={`${API_BASE_URL}/${user.profile_picture}`}
                 alt={`${user.username}'s profile`}
                 className="liked-image"
               />

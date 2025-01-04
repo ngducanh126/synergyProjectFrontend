@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './CollectionStyles.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function CollectionPage({ token }) {
   const { collectionId } = useParams();
   const [items, setItems] = useState([]);
@@ -15,7 +17,7 @@ function CollectionPage({ token }) {
     const fetchItems = async () => {
       try {
         const response = await axios.get(
-          `https://synergyproject.onrender.com/profile/collections/${collectionId}`,
+          `${API_BASE_URL}/profile/collections/${collectionId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -51,7 +53,7 @@ function CollectionPage({ token }) {
 
     try {
       await axios.post(
-        `https://synergyproject.onrender.com/profile/collections/${collectionId}/items`,
+        `${API_BASE_URL}/profile/collections/${collectionId}/items`,
         formData,
         {
           headers: {

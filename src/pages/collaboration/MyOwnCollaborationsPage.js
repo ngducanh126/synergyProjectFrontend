@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './CollaborationPages.css'; // Import the shared CSS file
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function MyOwnCollaborationsPage({ token }) {
   const [collaborations, setCollaborations] = useState([]);
   const [error, setError] = useState('');
@@ -9,7 +11,7 @@ function MyOwnCollaborationsPage({ token }) {
   useEffect(() => {
     const fetchMyCollaborations = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/collaboration/collaborations-i-own', {
+        const response = await axios.get(`${API_BASE_URL}/collaboration/collaborations-i-own`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCollaborations(response.data);

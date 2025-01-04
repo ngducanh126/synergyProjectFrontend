@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CollaborationPages.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function EditCollaborationPage({ token }) {
   const { id } = useParams();
   const [name, setName] = useState('');
@@ -16,7 +18,7 @@ function EditCollaborationPage({ token }) {
   useEffect(() => {
     const fetchCollaborationDetails = async () => {
       try {
-        const response = await axios.get(`https://synergyproject.onrender.com/collaboration/${id}`, {
+        const response = await axios.get(`${API_BASE_URL}/collaboration/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,7 +33,7 @@ function EditCollaborationPage({ token }) {
   
     const fetchMembers = async () => {
       try {
-        const response = await axios.get(`https://synergyproject.onrender.com/collaboration/${id}/members`, {
+        const response = await axios.get(`${API_BASE_URL}/collaboration/${id}/members`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -65,7 +67,7 @@ function EditCollaborationPage({ token }) {
     }
 
     try {
-      await axios.put(`https://synergyproject.onrender.com/collaboration/edit/${id}`, formData, {
+      await axios.put(`${API_BASE_URL}/collaboration/edit/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',

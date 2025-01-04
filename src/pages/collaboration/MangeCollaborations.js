@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './ManageCollaborations.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function ManageCollaborations() {
   return (
     <div className="manage-collaborations-container">

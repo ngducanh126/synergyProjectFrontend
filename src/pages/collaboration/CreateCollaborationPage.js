@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './CreateCollaboration.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function CreateCollaborationPage({ token }) {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -26,7 +28,7 @@ function CreateCollaborationPage({ token }) {
                 formData.append('profile_picture', profilePicture);
             }
 
-            const response = await fetch('https://synergyproject.onrender.com/collaboration/create', {
+            const response = await fetch(`${API_BASE_URL}/collaboration/create`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,

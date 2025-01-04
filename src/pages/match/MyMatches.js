@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './MyMatchesPage.css'; 
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function MyMatches({ token }) {
   const [matches, setMatches] = useState([]);
 
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/match/matches', {
+        const response = await axios.get(`${API_BASE_URL}/match/matches`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

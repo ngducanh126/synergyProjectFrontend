@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CollaborationPages.css'; // Import shared CSS
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 function CollaborationsPage({ token }) {
   const [collaborations, setCollaborations] = useState([]);
   const [error, setError] = useState('');
@@ -13,7 +15,7 @@ function CollaborationsPage({ token }) {
   useEffect(() => {
     const fetchCollaborations = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/collaboration/view', {
+        const response = await axios.get(`${API_BASE_URL}/collaboration/view`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -29,7 +31,7 @@ function CollaborationsPage({ token }) {
 
     const fetchCurrentUserProfile = async () => {
       try {
-        const response = await axios.get('https://synergyproject.onrender.com/profile/view', {
+        const response = await axios.get(`${API_BASE_URL}/profile/view`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,7 +56,7 @@ function CollaborationsPage({ token }) {
   const handleRequestToJoin = async (collabId) => {
     try {
       await axios.post(
-        `https://synergyproject.onrender.com/collaboration/${collabId}/request`,
+        `${API_BASE_URL}/collaboration/${collabId}/request`,
         {},
         {
           headers: {
@@ -76,7 +78,7 @@ function CollaborationsPage({ token }) {
         {collaborations.map((collab) => {
           console.log('[DEBUG] Collaboration:', collab);
           const profilePictureUrl = collab.profile_picture
-            ? `https://synergyproject.onrender.com/${collab.profile_picture}` // Prepend base URL
+            ? `${API_BASE_URL}/${collab.profile_picture}` // Prepend base URL
             : null;
 
           const userCollab = userCollaborations.find((userCollab) => userCollab.id === collab.id);
