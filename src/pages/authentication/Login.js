@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import './Login.css'; // Import the CSS file
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-console.log('url is '+ `${API_BASE_URL}/auth/login`)
+console.log('url is ' + `${API_BASE_URL}/auth/login`);
+
 function Login({ setIsLoggedIn, setToken }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const location = useLocation(); // To access state from navigation
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ function Login({ setIsLoggedIn, setToken }) {
           },
         }
       );
-    
+
       const token = response.data.access_token;
       setToken(token);
       localStorage.setItem('authToken', token); // Save token to localStorage
@@ -38,6 +40,9 @@ function Login({ setIsLoggedIn, setToken }) {
 
   return (
     <div className="login-container">
+      {/* Display the state message if it exists */}
+      {location.state?.message && <p className="login-message">{location.state.message}</p>}
+      
       <div className="logo"></div> {/* Placeholder for the logo */}
       <form className="login-form" onSubmit={handleLogin}>
         <h1 className="login-title">Sign In</h1>
