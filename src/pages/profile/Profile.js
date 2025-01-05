@@ -13,19 +13,6 @@ function Profile({ token }) {
   const [newCollectionName, setNewCollectionName] = useState('');
   const navigate = useNavigate();
 
-  // Helper function to determine the full URL for profile picture
-  const getProfilePictureUrl = (profilePicturePath) => {
-    if (!profilePicturePath) return null;
-
-    // If the path is already a full URL, return it
-    if (profilePicturePath.startsWith('http://') || profilePicturePath.startsWith('https://')) {
-      return profilePicturePath;
-    }
-
-    // Otherwise, construct the full URL using API_BASE_URL
-    return `${API_BASE_URL}${profilePicturePath}`;
-  };
-
   // Fetch profile and collections
   useEffect(() => {
     const fetchProfile = async () => {
@@ -93,7 +80,7 @@ function Profile({ token }) {
         <div className="profile-picture-container">
           {profile.profile_picture ? (
             <img
-              src={getProfilePictureUrl(profile.profile_picture)} // Dynamically resolve the full URL
+              src={`${API_BASE_URL}/${profile.profile_picture}`} // Directly concatenate with API_BASE_URL
               alt="Profile"
               className="profile-picture"
             />
