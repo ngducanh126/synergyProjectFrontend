@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
 
@@ -9,8 +9,14 @@ function Home({ isLoggedIn, handleLogout, token }) {
   const [popularCollaborations, setPopularCollaborations] = useState([]);
   const [userCollaborations, setUserCollaborations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login', { state: { message: 'You are not logged in, log in first.' } });
+      return;
+    }
+
     const fetchPopularCollaborations = async () => {
       try {
         if (!token) return;
@@ -42,11 +48,9 @@ function Home({ isLoggedIn, handleLogout, token }) {
       }
     };
 
-    if (isLoggedIn) {
-      fetchPopularCollaborations();
-      fetchUserCollaborations();
-    }
-  }, [isLoggedIn, token]);
+    fetchPopularCollaborations();
+    fetchUserCollaborations();
+  }, [isLoggedIn, token, navigate]);
 
   const handleRequestToJoin = async (collabId) => {
     try {
@@ -102,12 +106,10 @@ function Home({ isLoggedIn, handleLogout, token }) {
                   ? `${API_BASE_URL}/${collab.profile_picture}`
                   : null;
 
-                // Check if the current user is part of the collaboration
                 const userCollab = userCollaborations.find((userCollab) => userCollab.id === collab.id);
 
                 return (
                   <div className="collaboration-card" key={collab.id}>
-                    {/* Conditionally render the profile picture */}
                     {profilePictureUrl && (
                       <img
                         src={profilePictureUrl}
