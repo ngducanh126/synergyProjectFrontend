@@ -125,7 +125,12 @@ function Home({ isLoggedIn, handleLogout, token }) {
                     )}
                     <h3 className="collaboration-name">{collab.name}</h3>
                     <p>{collab.description}</p>
-                    <button className="info-button">Info</button>
+                    <button
+                      className="info-button"
+                      onClick={() => navigate(`/collaborations/${collab.id}`)} // Navigate to info page
+                    >
+                      Info
+                    </button>
                     {userCollab ? (
                       userCollab.role === 'admin' ? (
                         <p className="admin-label">You are the admin</p>
