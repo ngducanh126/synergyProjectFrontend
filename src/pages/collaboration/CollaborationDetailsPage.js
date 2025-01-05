@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CollaborationDetailsPage.css';
 
@@ -7,9 +7,10 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 function CollaborationDetailsPage({ token }) {
   const { collaborationId } = useParams();
+  const { state } = useLocation();
+  const navigate = useNavigate();
   const [collaboration, setCollaboration] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const isAdmin = state?.isAdmin || false; // Use passed prop for admin status
 
   useEffect(() => {
     const fetchCollaborationDetails = async () => {
@@ -21,19 +22,6 @@ function CollaborationDetailsPage({ token }) {
           },
         });
         setCollaboration(response.data);
-
-        // Fetch current user ID
-        const currentUserResponse = await axios.get(`${API_BASE_URL}/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token || localStorage.getItem('authToken')}`,
-          },
-        });
-        setCurrentUserId(currentUserResponse.data.id);
-
-        // Check if the current user is the admin
-        if (currentUserResponse.data.id === response.data.admin_id) {
-          setIsAdmin(true);
-        }
       } catch (error) {
         console.error('Error fetching collaboration details:', error.response?.data || error.message);
       }
@@ -77,8 +65,19 @@ function CollaborationDetailsPage({ token }) {
           <div className="profile-placeholder">No Picture</div>
         )}
         <p className="collaboration-description">{collaboration.description || 'No description provided.'}</p>
-        <p className="admin-label">Admin: {collaboration.admin_name || 'Unknown'}</p>
-
+        {isAdmin ? (
+          <>
+            <p className="admin-label">You are the admin of this collaboration.</p>
+            <button
+              className="edit-button"
+              onClick={() => navigate(`/edit-collaboration/${collaborationId}`)}
+            >
+              Edit
+            </button>
+          </>
+        ) : (
+          <p className="admin-label">Admin: {collaboration.admin_name || 'Unknown'}</p>
+        )}
         {!isAdmin && (
           <button className="request-button" onClick={handleRequestToJoin}>
             Request to Join

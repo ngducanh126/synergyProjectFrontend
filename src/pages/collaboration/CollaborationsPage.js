@@ -82,6 +82,7 @@ function CollaborationsPage({ token }) {
             : null;
 
           const userCollab = userCollaborations.find((userCollab) => userCollab.id === collab.id);
+          const isAdmin = userCollab?.role === 'admin'; // Determine admin status
 
           return (
             <div className="collaboration-card" key={collab.id}>
@@ -102,12 +103,12 @@ function CollaborationsPage({ token }) {
               <h2 className="collaboration-name">{collab.name}</h2>
               <button
                 className="info-button"
-                onClick={() => navigate(`/collaborations/${collab.id}`)}
+                onClick={() => navigate(`/collaborations/${collab.id}`, { state: { isAdmin } })}
               >
                 Info
               </button>
               {userCollab ? (
-                userCollab.role === 'admin' ? (
+                isAdmin ? (
                   <p className="admin-label">You are the admin</p>
                 ) : (
                   <p className="member-label">You are a member</p>
